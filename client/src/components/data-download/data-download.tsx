@@ -1,7 +1,6 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import DataFilter from "../data-filter/data-filter";
-import Table from "./table";
 import EnhancedTable from "../table/table";
 
 
