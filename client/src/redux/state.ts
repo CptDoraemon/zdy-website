@@ -1,6 +1,6 @@
 import { Filters } from "./types/filter";
 
-interface State {
+export interface State {
     filter: Filters
 }
 

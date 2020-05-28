@@ -15,6 +15,8 @@ import MainPage from "./components/main-page/main-page";
 import Header from "./components/header/header";
 import DataExplorer from "./components/data-explorer/data-explorer";
 
+const store = configureStore();
+
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100vw',
@@ -27,6 +29,7 @@ const useStyles = makeStyles(theme => ({
     widthWrapper: {
         width: '100%',
         maxWidth: theme.breakpoints.values.md,
+        margin: theme.spacing(4, 0)
     }
 }));
 
@@ -53,7 +56,6 @@ const InnerApp: React.FC<InnerAppProps> = () => {
     )
 };
 
-const store = configureStore();
 const App: React.FC = () => {
     return (
         <Provider store={store}>
