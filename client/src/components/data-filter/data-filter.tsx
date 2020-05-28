@@ -31,11 +31,19 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        [theme.breakpoints.down('sm')]: {
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+        }
     },
     selectorWrapper: {
         minWidth: 200,
-        margin: theme.spacing(0, 2)
+        margin: theme.spacing(0, 2),
+        [theme.breakpoints.down('sm')]: {
+            margin: theme.spacing(1, 2),
+        }
     },
     button: {
         margin: theme.spacing(2)

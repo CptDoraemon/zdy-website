@@ -1,11 +1,18 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {Box, FormControl, InputLabel, MenuItem, Select, Typography} from "@material-ui/core";
+import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 
 
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%'
+    },
+    active: {
+        color: theme.palette.success.main,
+        fontWeight: 700
+    },
+    inactive: {
+        color: theme.palette.grey["500"]
     },
     capitalize: {
         textTransform: 'capitalize'
@@ -27,22 +34,23 @@ const DataSelect: React.FC<DataSelectProps> = ({label, value, onChange, choices}
     const classes = useStyles();
     const id = `data-select-${label}`;
     const notSelected = 'null';
+    const labelClassName = value === null ? `${classes.capitalize}` : `${classes.capitalize} ${classes.active}`;
+    const selectionClassName = value === null ? `${classes.capitalize} ${classes.inactive}` : `${classes.capitalize}`;
 
     const changeHandler = (e: any) => {
-        console.log(e.target.value)
-        onChange(e.target.value)
+        onChange(e.target.value === notSelected ? null : e.target.value)
     };
 
     return (
         <FormControl className={classes.root}>
-            <InputLabel htmlFor={id} className={classes.capitalize}> { label } </InputLabel>
+            <InputLabel htmlFor={id} className={labelClassName}> { label } </InputLabel>
             <Select
                 id={id}
                 value={value === null ? notSelected : value}
-                className={classes.capitalize}
+                className={selectionClassName}
                 onChange={changeHandler}
             >
-                <MenuItem value={notSelected}>None</MenuItem>
+                <MenuItem value={notSelected}> All </MenuItem>
                 {
                     choices.map((_, i) => (
                         <MenuItem value={_[0]} key={i} className={classes.capitalize}>

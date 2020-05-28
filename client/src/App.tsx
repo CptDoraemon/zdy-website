@@ -14,6 +14,7 @@ import RouterScrollRestoration from "./router-scroll-restoration";
 import MainPage from "./components/main-page/main-page";
 import Header from "./components/header/header";
 import DataExplorer from "./components/data-explorer/data-explorer";
+import DataDownload from "./components/data-download/data-download";
 
 const store = configureStore();
 
@@ -21,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     root: {
         width: '100vw',
         maxWidth: '100%',
+        overflowX: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -49,6 +51,7 @@ const InnerApp: React.FC<InnerAppProps> = () => {
                         <Route path="/" exact render={ () => <MainPage /> } />
                         <div className={classes.widthWrapper}>
                             <Route path="/explore-data" exact render={ () => <DataExplorer /> } />
+                            <Route path="/file-repository" exact render={ () => <DataDownload /> } />
                         </div>
                     </Switch>
             </Router>

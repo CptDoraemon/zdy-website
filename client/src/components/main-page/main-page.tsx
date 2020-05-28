@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     sectionWrapper: {
         width: '33%',
         padding: theme.spacing(2),
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('sm')]: {
             width: '100%',
         }
     }

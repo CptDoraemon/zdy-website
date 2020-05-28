@@ -54,15 +54,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface NavListProps {
-
+    className?: string
 }
 
-const NavList: React.FC<NavListProps> = ({}) => {
+const NavList: React.FC<NavListProps> = ({className}) => {
     const classes = useStyles();
     const path = useLocation().pathname;
 
     return (
-        <ul className={classes.root}>
+        <ul className={className ? `${classes.root} ${className}` : classes.root}>
             {
                 navListData.map(_ => (
                     <li key={_.title} className={path === _.link ? classes.activeLink : ''}>
