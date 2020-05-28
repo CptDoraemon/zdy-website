@@ -40,7 +40,9 @@ const useStyles = makeStyles(theme => ({
         },
         '& a': {
             textTransform: 'capitalize',
-            fontWeight: 700
+            fontWeight: 700,
+            display: 'block',
+            padding: theme.spacing(2),
         },
         '& a:hover': {
             color: theme.palette.secondary.light
