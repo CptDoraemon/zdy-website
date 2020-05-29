@@ -1,12 +1,19 @@
+const cors = require('cors');
+const corsOptions = {
+    origin: ['http://localhost:3000'],
+    // origin: '*',
+    maxAge: 31536000,
+    methods: 'GET'
+};
+
 /**
  * /api/get-data?sex=1,2&death=0,1&severity=1,2,3&ageMin=10&ageMax=20
  */
 const getDataRouter = (app, dbConnection) => {
-    app.get('/api/get-data', async (req, res) => {
+    app.get('/api/get-data', cors(corsOptions), async (req, res) => {
         try {
             const queryString = getQueryString(req, res);
             if (queryString === '') return;
-            console.log(queryString);
 
             const result = await getData(dbConnection, queryString);
             res.json({
@@ -56,7 +63,7 @@ const getQueryString = (req, res) => {
     ];
 
     for (let i=0; i<params.length; i++) {
-        if (params[i] !== undefined) {
+        if (params[i].value !== undefined) {
             const valueArray = queryParamValueToStringArray(params[i].value);
             const isValidate = validateQueryParam(params[i].key, valueArray, params[i].possibleValues, res);
             if (!isValidate) {

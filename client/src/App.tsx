@@ -31,7 +31,8 @@ const useStyles = makeStyles(theme => ({
     widthWrapper: {
         width: '100%',
         maxWidth: theme.breakpoints.values.md,
-        margin: theme.spacing(4, 0)
+        margin: theme.spacing(4, 0),
+        padding: theme.spacing(0, 2)
     }
 }));
 

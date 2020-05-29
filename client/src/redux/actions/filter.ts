@@ -1,5 +1,3 @@
-import {Filters} from "../types/filter";
-
 export enum FilterActionType {
     'ALTER_PENDING_FILTER'='ALTER_PENDING_FILTER',
     'APPLY_PENDING_FILTER'='APPLY_PENDING_FILTER',

@@ -1,6 +1,5 @@
 import defaultState from "../state";
 import {FilterActions, FilterActionType} from "../actions/filter";
-import {defaultFilterState, FilterState} from "../types/filter";
 import { cloneDeep } from 'lodash'
 
 function filter(state = defaultState.filter, actions: FilterActions) {

@@ -67,7 +67,7 @@ const MainPage: React.FC = () => {
                 <div className={classes.sections}>
                     {
                         sectionsData.map((section, i) => (
-                            <div className={classes.sectionWrapper}>
+                            <div className={classes.sectionWrapper} key={i}>
                                 <Section title={section.title} link={section.link} description={section.description} />
                             </div>
                         ))

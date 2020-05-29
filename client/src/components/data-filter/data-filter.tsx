@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
         width: '100%'
     },
     title: {
-        margin: theme.spacing(2),
+        margin: theme.spacing(2, 0),
         textTransform: 'capitalize'
     },
     filtersGroup: {
@@ -57,6 +57,7 @@ interface DataFilterProps {
     filterState: State['filter']['pending'],
     isPendingChanged: State['filter']['isPendingChanged'],
     isActiveApplied: State['filter']['isActiveApplied'],
+    callBackOnFilterApplied?: () => void
 }
 
 const _DataFilter: React.FC<DataFilterProps> = (
@@ -66,13 +67,19 @@ const _DataFilter: React.FC<DataFilterProps> = (
         reset,
         filterState,
         isPendingChanged,
-        isActiveApplied
+        isActiveApplied,
+        callBackOnFilterApplied
     }) => {
     const classes = useStyles();
 
     const [dropdown, setDropdown] = useState(false);
     const toggleDropdown = () => {
         setDropdown(state => !state)
+    };
+
+    const applyFilter = () => {
+        apply();
+        if (callBackOnFilterApplied) callBackOnFilterApplied()
     };
 
     return (
@@ -106,8 +113,10 @@ const _DataFilter: React.FC<DataFilterProps> = (
                         </div>
                     </div>
                     <div className={classes.buttons}>
-                        <Button variant="contained" className={classes.applyButton} disableElevation onClick={apply} disabled={!isPendingChanged}>
-                            Apply new filters
+                        <Button variant="contained" className={classes.applyButton} disableElevation onClick={applyFilter} disabled={!isPendingChanged}>
+                            {
+                                isPendingChanged ? 'Apply new filters' : 'Filters applied'
+                            }
                         </Button>
                         <Button variant="contained" className={classes.resetButton} disableElevation onClick={reset} disabled={false}>
                             Reset all filters
