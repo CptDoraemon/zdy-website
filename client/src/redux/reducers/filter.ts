@@ -1,18 +1,30 @@
-import initState from "../state";
+import defaultState from "../state";
 import {FilterActions, FilterActionType} from "../actions/filter";
+import {defaultFilterState, FilterState} from "../types/filter";
+import { cloneDeep } from 'lodash'
 
-function filter(state = initState.filter, actions: FilterActions) {
+function filter(state = defaultState.filter, actions: FilterActions) {
     switch(actions.type) {
-        case FilterActionType.ALTER_AGE_FILTER:
-            return Object.assign({}, state, {age: actions.value});
-        case FilterActionType.ALTER_DEATH_FILTER:
-            return Object.assign({}, state, {death: actions.value});
-        case FilterActionType.ALTER_GENDER_FILTER:
-            return Object.assign({}, state, {gender: actions.value});
-        case FilterActionType.ALTER_SEVERITY_FILTER:
-            return Object.assign({}, state, {severity: actions.value});
+        case FilterActionType.ALTER_PENDING_FILTER:
+            return (() => {
+                const newState = cloneDeep(state);
+                newState.pending[actions.filterName][actions.optionName] = actions.value;
+                newState.isPendingChanged = true;
+                return newState;
+            })();
+
+        case FilterActionType.APPLY_PENDING_FILTER:
+            return (() => {
+                const newState = cloneDeep(state);
+                newState.active = {...newState.pending};
+                newState.isActiveApplied = true;
+                newState.isPendingChanged = false;
+                return newState;
+            })();
+
         case FilterActionType.RESET_ALL_FILTER:
-            return Object.assign({}, initState.filter);
+            return cloneDeep(defaultState.filter);
+
         default:
             return state
     }

@@ -1,118 +1,120 @@
-import React from "react";
+import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import DataSelect from "./data-select";
-import {filterChoices, Filters} from "../../redux/types/filter";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import { State } from "../../redux/state";
 import {
-    alterAgeFilter,
-    alterDeathFilter,
-    alterGenderFilter,
-    alterSeverityFilter,
+    alterPendingFilter,
+    applyPendingFilter,
     resetAllFilter
 } from "../../redux/actions/filter";
-import {Box, Button, Typography} from "@material-ui/core";
-
-const ageChoices = filterChoices.age.slice();
-const deathChoices = filterChoices.death.slice();
-const genderChoices = filterChoices.gender.slice();
-const severityChoices = filterChoices.severity.slice();
+import {Button} from "@material-ui/core";
+import FilterListIcon from '@material-ui/icons/FilterList';
+import Checkboxes from "./checkboxes";
+import AgeFilter from "./age-filter";
 
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%'
     },
     title: {
-        margin: theme.spacing(2)
+        margin: theme.spacing(2),
+        textTransform: 'capitalize'
     },
-    selectorsWrapper: {
+    filtersGroup: {
         width: '100%',
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
         justifyContent: 'flex-start',
-        [theme.breakpoints.down('sm')]: {
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'center',
-        }
     },
-    selectorWrapper: {
-        minWidth: 200,
+    filterWrapper: {
+        // minWidth: 200,
         margin: theme.spacing(0, 2),
         [theme.breakpoints.down('sm')]: {
             margin: theme.spacing(1, 2),
         }
     },
-    button: {
+    buttons: {
         margin: theme.spacing(2)
+    },
+    applyButton: {
+        backgroundColor: theme.palette.success.main,
+        color: '#fff',
+        margin: theme.spacing(0, 1, 0, 0)
+    },
+    resetButton: {
+        backgroundColor: theme.palette.warning.main,
+        color: '#fff',
     }
 }));
 
 interface DataFilterProps {
-    gender: State['filter']['gender'],
-    age: State['filter']['age'],
-    severity: State['filter']['severity'],
-    death: State['filter']['death'],
     reset: () => void,
-    alterAgeFilter: (value: Filters['age']) => void,
-    alterGenderFilter: (value: Filters['gender']) => void,
-    alterDeathFilter: (value: Filters['death']) => void,
-    alterSeverityFilter: (value: Filters['severity']) => void
+    apply: () => void,
+    alter: (filterName: string, optionName: string, value: any) => void,
+    filterState: State['filter']['pending'],
+    isPendingChanged: State['filter']['isPendingChanged'],
+    isActiveApplied: State['filter']['isActiveApplied'],
 }
 
 const _DataFilter: React.FC<DataFilterProps> = (
     {
-        gender,
-        age,
-        severity,
-        death,
-        alterGenderFilter,
-        alterAgeFilter,
-        alterDeathFilter,
-        alterSeverityFilter,
-        reset
+        apply,
+        alter,
+        reset,
+        filterState,
+        isPendingChanged,
+        isActiveApplied
     }) => {
     const classes = useStyles();
-    const noFilterApplied =
-        gender === null &&
-        age === null &&
-        severity === null &&
-        death === null;
+
+    const [dropdown, setDropdown] = useState(false);
+    const toggleDropdown = () => {
+        setDropdown(state => !state)
+    };
 
     return (
         <div className={classes.root}>
-            <div className={classes.title}>
-                <Typography variant={'body1'} component={'div'}>
-                    <Box fontWeight={700}>
-                        Filters:
-                    </Box>
-                </Typography>
-            </div>
-            <div className={classes.selectorsWrapper}>
-                <div className={classes.selectorWrapper}>
-                    <DataSelect
-                        value={gender}
-                        label={'gender'}
-                        onChange={alterGenderFilter}
-                        choices={genderChoices}/>
-                </div>
-                <div className={classes.selectorWrapper}>
-                    <DataSelect value={age} label={'age'} onChange={alterAgeFilter} choices={ageChoices}/>
-                </div>
-                <div className={classes.selectorWrapper}>
-                    <DataSelect value={death} label={'death'} onChange={alterDeathFilter} choices={deathChoices}/>
-                </div>
-                <div className={classes.selectorWrapper}>
-                    <DataSelect value={severity} label={'severity'} onChange={alterSeverityFilter} choices={severityChoices}/>
-                </div>
-            </div>
-            <div className={classes.button}>
-                <Button variant="contained" color="primary" disableElevation onClick={reset} disabled={noFilterApplied}>
-                    Reset all filters
-                </Button>
-            </div>
+            <Button
+                variant="contained"
+                color="primary"
+                disableElevation
+                className={classes.title}
+                endIcon={<FilterListIcon/>}
+                aria-expanded={dropdown}
+                onClick={toggleDropdown}
+            >
+                Filters
+            </Button>
+            {
+                dropdown &&
+                <>
+                    <div className={classes.filtersGroup}>
+                        <div className={classes.filterWrapper}>
+                            <Checkboxes filterName={'gender'} options={filterState.gender} alter={alter}/>
+                        </div>
+                        <div className={classes.filterWrapper}>
+                            <Checkboxes filterName={'death'} options={filterState.death} alter={alter}/>
+                        </div>
+                        <div className={classes.filterWrapper}>
+                            <Checkboxes filterName={'severity'} options={filterState.severity} alter={alter}/>
+                        </div>
+                        <div className={classes.filterWrapper}>
+                            <AgeFilter filterName={'age'} alter={alter} min={filterState.age.min} max={filterState.age.max}/>
+                        </div>
+                    </div>
+                    <div className={classes.buttons}>
+                        <Button variant="contained" className={classes.applyButton} disableElevation onClick={apply} disabled={!isPendingChanged}>
+                            Apply new filters
+                        </Button>
+                        <Button variant="contained" className={classes.resetButton} disableElevation onClick={reset} disabled={false}>
+                            Reset all filters
+                        </Button>
+                    </div>
+                </>
+            }
         </div>
     )
 };
@@ -120,19 +122,16 @@ const _DataFilter: React.FC<DataFilterProps> = (
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         reset: () => dispatch(resetAllFilter()),
-        alterAgeFilter: (value: Filters['age']) => dispatch(alterAgeFilter(value)),
-        alterGenderFilter: (value: Filters['gender']) => dispatch(alterGenderFilter(value)),
-        alterDeathFilter: (value: Filters['death']) => dispatch(alterDeathFilter(value)),
-        alterSeverityFilter: (value: Filters['severity']) => dispatch(alterSeverityFilter(value))
+        apply: () => dispatch(applyPendingFilter()),
+        alter: (filterName: string, optionName: string, value: any) => dispatch(alterPendingFilter(filterName, optionName, value))
     }
 }
 
 function mapStateToProps(state: State) {
     return {
-        gender: state.filter.gender,
-        age: state.filter.age,
-        severity: state.filter.severity,
-        death: state.filter.death,
+        filterState: {...state.filter.pending},
+        isPendingChanged: state.filter.isPendingChanged,
+        isActiveApplied: state.filter.isActiveApplied,
     }
 }
 

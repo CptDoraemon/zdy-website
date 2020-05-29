@@ -1,16 +1,16 @@
-import { Filters } from "./types/filter";
+import {FilterState, defaultFilterState} from "./types/filter";
 
 export interface State {
-    filter: Filters
+    filter: FilterState
 }
 
-const state: State = {
+const defaultState: State = {
     filter: {
-        death: null,
-        gender: null,
-        age: null,
-        severity: null,
+        active: {...defaultFilterState.active},
+        pending: {...defaultFilterState.active},
+        isPendingChanged: false,
+        isActiveApplied: false
     }
 };
 
-export default state
+export default defaultState
