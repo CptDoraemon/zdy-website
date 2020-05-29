@@ -52,9 +52,16 @@ const DataDownload: React.FC<DataDownloadProps> = ({}) => {
         getData()
     }, []);
 
+    console.log(data);
+
     return (
         <div className={classes.root}>
-            <DataFilter callBackOnFilterApplied={getData}/>
+
+            <DataFilter
+                callBackOnFilterApplied={getData}
+                disabled={loading}
+            />
+
             {
                 loading &&
                 <div className={classes.centering}>
@@ -68,7 +75,13 @@ const DataDownload: React.FC<DataDownloadProps> = ({}) => {
                 </div>
             }
             {
-                !loading && !error && data &&
+                !loading && !error && Array.isArray(data) && !data.length &&
+                <div className={classes.centering}>
+                    No entries found with applied filters
+                </div>
+            }
+            {
+                !loading && !error && Array.isArray(data) && data.length > 0 &&
                 <TableContainer className={classes.tableContainer}>
                     <Table>
                         <TableHead>

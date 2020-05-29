@@ -57,7 +57,8 @@ interface DataFilterProps {
     filterState: State['filter']['pending'],
     isPendingChanged: State['filter']['isPendingChanged'],
     isActiveApplied: State['filter']['isActiveApplied'],
-    callBackOnFilterApplied?: () => void
+    callBackOnFilterApplied?: () => void,
+    disabled?: boolean
 }
 
 const _DataFilter: React.FC<DataFilterProps> = (
@@ -68,7 +69,8 @@ const _DataFilter: React.FC<DataFilterProps> = (
         filterState,
         isPendingChanged,
         isActiveApplied,
-        callBackOnFilterApplied
+        callBackOnFilterApplied,
+        disabled
     }) => {
     const classes = useStyles();
 
@@ -79,6 +81,11 @@ const _DataFilter: React.FC<DataFilterProps> = (
 
     const applyFilter = () => {
         apply();
+        if (callBackOnFilterApplied) callBackOnFilterApplied()
+    };
+
+    const resetFilter = () => {
+        reset();
         if (callBackOnFilterApplied) callBackOnFilterApplied()
     };
 
@@ -113,12 +120,12 @@ const _DataFilter: React.FC<DataFilterProps> = (
                         </div>
                     </div>
                     <div className={classes.buttons}>
-                        <Button variant="contained" className={classes.applyButton} disableElevation onClick={applyFilter} disabled={!isPendingChanged}>
+                        <Button variant="contained" className={classes.applyButton} disableElevation onClick={applyFilter} disabled={!(isPendingChanged && !disabled)}>
                             {
                                 isPendingChanged ? 'Apply new filters' : 'Filters applied'
                             }
                         </Button>
-                        <Button variant="contained" className={classes.resetButton} disableElevation onClick={reset} disabled={false}>
+                        <Button variant="contained" className={classes.resetButton} disableElevation onClick={resetFilter} disabled={disabled}>
                             Reset all filters
                         </Button>
                     </div>

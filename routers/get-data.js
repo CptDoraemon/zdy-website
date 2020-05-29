@@ -16,6 +16,12 @@ const getDataRouter = (app, dbConnection) => {
             if (queryString === '') return;
 
             const result = await getData(dbConnection, queryString);
+            // setTimeout(() => {
+            //     res.json({
+            //         status: 'OK',
+            //         data: result.slice()
+            //     });
+            // }, 3000)
             res.json({
                 status: 'OK',
                 data: result.slice()
