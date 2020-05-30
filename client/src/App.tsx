@@ -15,6 +15,7 @@ import MainPage from "./components/main-page/main-page";
 import Header from "./components/header/header";
 import DataExplorer from "./components/data-explorer/data-explorer";
 import DataDownload from "./components/data-download/data-download";
+import CaseDetail from "./components/case-detail/case-detail";
 
 const store = configureStore();
 
@@ -53,6 +54,7 @@ const InnerApp: React.FC<InnerAppProps> = () => {
                         <div className={classes.widthWrapper}>
                             <Route path="/explore-data" exact render={ () => <DataExplorer /> } />
                             <Route path="/file-repository" exact render={ () => <DataDownload /> } />
+                            <Route path="/case-detail/:id" exact render={ (props) => <CaseDetail id={props.match.params.id}/> } />
                         </div>
                     </Switch>
             </Router>

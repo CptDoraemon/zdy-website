@@ -9,7 +9,7 @@ interface DataType {
     [key: string]: any
 }
 
-const useGetData = () => {
+const useGetTableData = () => {
     const filter = useStore<State>();
     const defaultFilter = cloneDeep(defaultFilters);
     const {
@@ -35,4 +35,4 @@ const useGetData = () => {
     }
 };
 
-export default useGetData;
+export default useGetTableData;

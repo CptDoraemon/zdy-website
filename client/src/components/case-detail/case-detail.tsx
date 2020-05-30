@@ -2,19 +2,21 @@ import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-    root: {
 
-    },
 }));
 
-const Table: React.FC = () => {
+interface CaseDetailProps {
+    id: string
+}
+
+const CaseDetail: React.FC<CaseDetailProps> = ({id}) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-
+        <div>
+            Case detail {id}
         </div>
     )
 };
 
-export default Table
+export default CaseDetail
