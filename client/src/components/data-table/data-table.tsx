@@ -139,8 +139,8 @@ const DataTable: React.FC<EnhancedTableProps> = ({data, title}) => {
                                             {
                                                 header.map((key, i) => (
                                                     i === 0 ?
-                                                        <TableCell align="left">{row[key]}</TableCell> :
-                                                        <TableCell align="right">{row[key]}</TableCell>
+                                                        <TableCell align="left" key={i}>{row[key]}</TableCell> :
+                                                        <TableCell align="right" key={i}>{row[key]}</TableCell>
                                                 ))
                                             }
 

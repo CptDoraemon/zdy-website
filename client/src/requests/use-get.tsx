@@ -8,6 +8,10 @@ const useGet = <DataType,>() => {
     const [errorMessage, setErrorMessage] = useState('');
     const [data, setData] = useState<DataType | null>(null);
 
+    const resetData = () => {
+        setData(null)
+    };
+
     const doGet = async (
         url: RequestInfo
     ) => {
@@ -47,6 +51,7 @@ const useGet = <DataType,>() => {
         error,
         errorMessage,
         data,
+        resetData,
         doGet
     }
 

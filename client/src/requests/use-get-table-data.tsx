@@ -4,13 +4,14 @@ import {useStore} from "react-redux";
 import {State} from "../redux/state";
 import {defaultFilters} from "../redux/types/filter";
 import useGet from "./use-get";
+import filterToQueryParam from "./helpers/filter-to-query-param";
 
 interface DataType {
     [key: string]: any
 }
 
 const useGetTableData = () => {
-    const filter = useStore<State>();
+    const state = useStore<State>();
     const defaultFilter = cloneDeep(defaultFilters);
     const {
         loading,
@@ -21,9 +22,9 @@ const useGetTableData = () => {
     } = useGet<DataType[]>();
 
     const getData = () => {
-        const url = URLs.getDataURL(cloneDeep(filter.getState().filter.active), defaultFilter);
+        const queryParams = filterToQueryParam(cloneDeep(state.getState().filter.active), defaultFilter);
+        const url = URLs.getDataURL + queryParams;
         doGet(url);
-        console.log(url)
     };
 
     return {

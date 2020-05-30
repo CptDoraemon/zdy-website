@@ -10,6 +10,7 @@ const corsOptions = {
 const useCorsForSelectedRouters = (app) => {
     const routers = [
         URLs.getData,
+        URLs.requestZip,
         URLs.download
     ];
 

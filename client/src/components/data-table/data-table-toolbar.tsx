@@ -3,9 +3,6 @@ import React, {useMemo} from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import clsx from "clsx";
 import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
 import DownloadButton from "./download-button";
 
 const useToolbarStyles = makeStyles((theme) => ({
@@ -55,15 +52,7 @@ const DataTableToolbar: React.FC<EnhancedTableToolbarProps> = ({selected, title}
                 </Typography>
             )}
 
-            {
-                numSelected > 0 ?
-                <Tooltip title="Download Selected">
-                    <DownloadButton text={'Download Selected'} list={selected}/>
-                </Tooltip> :
-                <Tooltip title="Download All">
-                    <DownloadButton text={'Download All'} />
-                </Tooltip>
-            }
+            <DownloadButton list={selected}/>
         </Toolbar>
     );
 };
