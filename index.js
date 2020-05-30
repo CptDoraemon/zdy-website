@@ -6,7 +6,8 @@ require('dotenv').config();
 const useCorsForSelectedRouters = require('./routers/cors');
 const connectToDB = require('./connect-to-db');
 const getDataRouter = require('./routers/get-data');
-const downloadRouter = require('./routers/download');
+const requestZipFileRouter = require('./routers/download').requestZipFileRouter;
+const getFileRouter = require('./routers/download').getFileRouter;
 
 const MOCK_PICS_DIR = path.join(__dirname, 'assets/mock_pics');
 const ZIP_DIR = path.join(__dirname, 'download_temp');
@@ -25,7 +26,8 @@ useCorsForSelectedRouters(app);
 
 // API routers
 getDataRouter(app, dbConnection);
-downloadRouter(app, dbConnection, MOCK_PICS_DIR, ZIP_DIR);
+requestZipFileRouter(app, dbConnection, MOCK_PICS_DIR, ZIP_DIR);
+getFileRouter(app, ZIP_DIR);
 // API routers end
 
 app.get('*', (req, res) => {

@@ -1,6 +1,7 @@
 const url = require('./URLs').getData;
 const getQueryStringFromFilter = require('./helpers/get-query-string-from-filter');
 const queryDB = require('./helpers/query-db');
+const sendGenericErrorResponse = require('./helpers/generic-error-response');
 
 /**
  * /api/get-data?sex=1,2&death=0,1&severity=1,2,3&ageMin=10&ageMax=20
@@ -23,10 +24,7 @@ const getDataRouter = (app, dbConnection) => {
                 data: result.slice()
             });
         } catch (e) {
-            console.log(e);
-            res.json({
-                status: 'error',
-            });
+            sendGenericErrorResponse(e, res)
         }
     })
 };

@@ -1,4 +1,6 @@
 /node_modules
+/download_temp
+!/download_temp/placeholder
 /client/build
 /client/node_modules
 **/.idea

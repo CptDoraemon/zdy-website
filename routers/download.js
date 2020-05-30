@@ -1,18 +1,19 @@
-const url = require('./URLs').download;
+const url = require('./URLs');
 const getQueryStringFromFilter = require('./helpers/get-query-string-from-filter');
+const sendGenericErrorResponse = require('./helpers/generic-error-response');
 const queryDB = require('./helpers/query-db');
 const path = require('path');
 const fs = require('fs');
 const archiver = require('archiver');
 
 /**
- * download by ID or by filters
+ * request generate Zip file by ID or by filters
  * if id exists, any filter will be ignored
- * download all files if no query param exists
- * /api/download?sex=1,2&death=0,1&severity=1,2,3&ageMin=10&ageMax=20&id=1,2,3
+ * zip all files if no query param exists
+ * /api/request-zip?sex=1,2&death=0,1&severity=1,2,3&ageMin=10&ageMax=20&id=1,2,3
  */
-const downloadRouter = (app, dbConnection, sourceDir, targetDir) => {
-    app.get(url, async (req, res) => {
+const requestZipFileRouter = (app, dbConnection, sourceDir, targetDir) => {
+    app.get(url.requestZip, async (req, res) => {
         try {
             let IDs = getID(req);
             if (IDs !== null) {
@@ -27,14 +28,52 @@ const downloadRouter = (app, dbConnection, sourceDir, targetDir) => {
                 IDs = result.map(row => row.id);
             }
 
-            const {path, size} = await getZipFiles(IDs, sourceDir, targetDir);
-            console.log(path, size);
-            res.download(path);
-        } catch (e) {
-            console.log(e);
+            const {filename, size} = await getZipFiles(IDs, sourceDir, targetDir);
             res.json({
-                status: 'error',
-            });
+                status: 'OK',
+                data: {
+                    filename,
+                    size
+                }
+            })
+        } catch (e) {
+            sendGenericErrorResponse(e, res)
+        }
+    })
+};
+
+/**
+ * download file by given filename
+ * /api/download?filename=example.zip
+ */
+const getFileRouter = (app, downloadDir) => {
+    app.get(url.download, async (req, res) => {
+        try {
+            let filename = req.query.filename;
+
+            if (filename === undefined) {
+                res.json({
+                    status: 'error',
+                    message: 'require filename query parameter'
+                });
+                return;
+            }
+
+            filename = decodeURIComponent(filename);
+            const filePath = path.join(downloadDir, filename);
+            const isFileExists = await checkFileExists(filePath);
+
+            if (isFileExists) {
+                res.download(filePath)
+            } else {
+                res.json({
+                    status: 'error',
+                    message: 'file does not exists'
+                });
+            }
+
+        } catch (e) {
+            sendGenericErrorResponse(e, res)
         }
     })
 };
@@ -97,15 +136,15 @@ const getZipFiles = (IDArray, sourceDir, targetDir) => {
         const zip = archiver('zip', {
             zlib: { level: 9 } // Sets the compression level.
         });
-        const fileName = `data-download--${Date.now().toString(36)}.zip`;
+        const fileName = `data-download-${Date.now().toString(36)}.zip`;
         const outputDir = path.join(targetDir, fileName);
         const output = fs.createWriteStream(outputDir);
 
         output.on('close', () => {
-            resolve(() => ({
-                path: outputDir,
+            resolve({
+                filename: fileName,
                 size: zip.pointer()
-            }));
+            });
         });
 
         zip.on('warning', (e) => {
@@ -117,12 +156,24 @@ const getZipFiles = (IDArray, sourceDir, targetDir) => {
             reject(e)
         });
 
+        zip.pipe(output);
+
         IDArray.forEach(id => {
-            console.log(sourceDir, `${id}.jpg`);
             zip.file(path.join(sourceDir, `${id}.jpg`), {name: `${id}.jpg`})
         });
         zip.finalize();
     });
 };
 
-module.exports = downloadRouter;
+const checkFileExists = (filePath) => {
+    return new Promise((resolve, reject) => {
+        fs.access(filePath, fs.constants.F_OK, (err) => {
+            resolve(err === null)
+        });
+    });
+};
+
+module.exports = {
+    requestZipFileRouter,
+    getFileRouter
+};
