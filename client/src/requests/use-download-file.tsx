@@ -9,6 +9,10 @@ const useDownloadFile = () => {
         return url + `?filename=${encodeURIComponent(filename)}`;
     };
 
+    const reset = () => {
+        setDownloaded(false)
+    };
+
     const doDownload = (filename: string) => {
         const urlWithQueryParam = getDownloadURL(filename);
 
@@ -25,6 +29,7 @@ const useDownloadFile = () => {
 
     return {
         downloaded,
+        reset,
         doDownload,
         getDownloadURL
     }

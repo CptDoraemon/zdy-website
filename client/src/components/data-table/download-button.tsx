@@ -49,7 +49,8 @@ const useStyles = makeStyles(theme => ({
     },
     message: {
         width: '100%',
-        textAlign: 'right'
+        textAlign: 'right',
+        padding: theme.spacing(1)
     }
 }));
 
@@ -63,7 +64,9 @@ const DownloadButton: React.FC<CaseDetailProps> = ({list}) => {
     const file = useDownloadFile();
 
     useEffect(() => {
-        zip.resetData()
+        // reset when selection is changed
+        zip.resetData();
+        file.reset()
     }, [list]);
 
     const fileSizeString = useMemo(() => {
