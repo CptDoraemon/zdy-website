@@ -1,5 +1,5 @@
 import {lighten, makeStyles} from "@material-ui/core/styles";
-import React from "react";
+import React, {useMemo} from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import clsx from "clsx";
 import Typography from "@material-ui/core/Typography";
@@ -30,12 +30,14 @@ const useToolbarStyles = makeStyles((theme) => ({
 }));
 
 interface EnhancedTableToolbarProps {
-    numSelected: number,
+    selected: number[],
     title: string
 }
 
-const DataTableToolbar: React.FC<EnhancedTableToolbarProps> = ({numSelected, title}) => {
+const DataTableToolbar: React.FC<EnhancedTableToolbarProps> = ({selected, title}) => {
     const classes = useToolbarStyles();
+
+    const numSelected = useMemo(() => selected.length, [selected]);
 
     return (
         <Toolbar
@@ -56,7 +58,7 @@ const DataTableToolbar: React.FC<EnhancedTableToolbarProps> = ({numSelected, tit
             {
                 numSelected > 0 ?
                 <Tooltip title="Download Selected">
-                    <DownloadButton text={'Download Selected'} />
+                    <DownloadButton text={'Download Selected'} list={selected}/>
                 </Tooltip> :
                 <Tooltip title="Download All">
                     <DownloadButton text={'Download All'} />

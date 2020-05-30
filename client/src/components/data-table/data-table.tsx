@@ -18,7 +18,10 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
     },
     control: {
-        margin: theme.spacing(2),
+        margin: theme.spacing(1),
+    },
+    controlLabel: {
+        fontSize: '0.8rem'
     },
     paper: {
         width: '100%',
@@ -89,11 +92,14 @@ const DataTable: React.FC<EnhancedTableProps> = ({data, title}) => {
         <div className={classes.root}>
             <Paper className={classes.paper} elevation={0}>
                 <FormControlLabel
-                    className={classes.control}
+                    classes={{
+                        root: classes.control,
+                        label: classes.controlLabel
+                    }}
                     control={<Switch checked={dense} onChange={handleChangeDense} />}
                     label="Dense padding"
                 />
-                <DataTableToolbar numSelected={selected.length} title={title}/>
+                <DataTableToolbar selected={selected} title={title}/>
                 <TableContainer>
                     <Table
                         className={classes.table}
