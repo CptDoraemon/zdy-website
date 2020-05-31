@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Dispatch, SetStateAction, useEffect} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {FormControl} from "@material-ui/core";
 import FormLabel from "@material-ui/core/FormLabel";
@@ -9,10 +9,17 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles(theme => ({
     root: {
-
+        width: 150
     },
     capitalize: {
         textTransform: 'capitalize'
+    },
+    error: {
+        color: theme.palette.error.main,
+        fontWeight: 700,
+        '&$:focus': {
+            color: theme.palette.error.main,
+        }
     }
 }));
 
@@ -22,18 +29,40 @@ interface CheckboxesProps {
         [key: string]: boolean
     },
     alter: (filterName: string, optionName: string, value: any) => void,
+    validation: {
+        isValid: boolean,
+        setIsValid: (value: boolean) => void
+    }
 }
 
-const Checkboxes: React.FC<CheckboxesProps> = ({filterName, options, alter}) => {
+const Checkboxes: React.FC<CheckboxesProps> = ({filterName, options, alter, validation}) => {
     const classes = useStyles();
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         alter(filterName, e.target.name, e.target.checked)
     };
 
+    useEffect(() => {
+        // validation check
+        // at least one option is required
+        const values = Object.values(options);
+        if (values.indexOf(true) === -1) {
+            validation.setIsValid(false)
+        } else {
+            validation.setIsValid(true)
+        }
+    }, [options]);
+
     return (
-        <FormControl component="fieldset" >
-            <FormLabel component="legend" className={classes.capitalize}>{filterName}</FormLabel>
+        <FormControl component="fieldset" className={classes.root}>
+            <FormLabel
+                error={!validation.isValid}
+                component="legend"
+                classes={{
+                    root: validation.isValid ? classes.capitalize : `${classes.capitalize} ${classes.error}`
+                }}
+            >
+                {filterName}</FormLabel>
             <FormGroup>
                 {
                     Object.entries(options).map((keyValuePair, i) => (
@@ -46,7 +75,10 @@ const Checkboxes: React.FC<CheckboxesProps> = ({filterName, options, alter}) => 
                     ))
                 }
             </FormGroup>
-            {/*<FormHelperText>Be careful</FormHelperText>*/}
+            {
+                !validation.isValid &&
+                <FormHelperText className={classes.error}>At least one is required</FormHelperText>
+            }
         </FormControl>
     )
 };
