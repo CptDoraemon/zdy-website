@@ -1,30 +1,7 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {Link, useLocation} from "react-router-dom";
-
-interface NavListData {
-    link: string,
-    title: string
-}
-
-const navListData: NavListData[] = [
-    {
-        title: 'home',
-        link: '/'
-    },
-    {
-        title: 'explore data',
-        link: '/explore-data'
-    },
-    {
-        title: 'file repository',
-        link: '/file-repository'
-    },
-    {
-        title: 'about us',
-        link: '/about'
-    },
-];
+import {navListData} from "./nav-list-data";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -67,7 +44,6 @@ const NavList: React.FC<NavListProps> = ({className}) => {
                 navListData.map(_ => (
                     <li key={_.title} className={path === _.link ? classes.activeLink : ''}>
                         <Link to={_.link}>
-                            { console.log(path === _.link)}
                             { _.title }
                         </Link>
                     </li>

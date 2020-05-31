@@ -4,6 +4,7 @@ import {Typography, Box, IconButton} from "@material-ui/core";
 import NavList from "./nav-list";
 import SearchBar from "./search-bar";
 import MenuIcon from '@material-ui/icons/Menu';
+import MobileNavList from "./mobile-nav-list";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -42,11 +43,11 @@ const useStyles = makeStyles(theme => ({
         }
     },
     mobileNav: {
-        '& li': {
-            margin: theme.spacing(0, 1),
-        },
-        '& a': {
-            padding: theme.spacing(1),
+        width: '100%',
+        height: '50px',
+        display: 'none',
+        [theme.breakpoints.down('sm')]: {
+            display: 'block'
         }
     }
 }));
@@ -78,8 +79,8 @@ const Header: React.FC = () => {
             </div>
             {
                 mobileNavBarActive &&
-                <div className={classes.root}>
-                    <NavList className={classes.mobileNav}/>
+                <div className={classes.mobileNav}>
+                    <MobileNavList />
                 </div>
             }
         </>
