@@ -22,6 +22,7 @@ function tableSort(state = defaultState.tableSort, actions: TableSortActions) {
             return (() => {
                 const newState = cloneDeep(state);
                 newState.rowPerPage = actions.value;
+                newState.currentPage = defaultState.tableSort.currentPage;
                 return newState;
             })();
 

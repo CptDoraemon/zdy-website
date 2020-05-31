@@ -35,7 +35,7 @@ const getDataRouter = (app, dbConnection) => {
                 status: 'OK',
                 data: {
                     tableData: tableData.slice(),
-                    totalPages: Math.floor(TOTAL_ROWS / rowPerPage)
+                    totalPages: Math.ceil(TOTAL_ROWS / rowPerPage)
                 }
             });
         } catch (e) {
