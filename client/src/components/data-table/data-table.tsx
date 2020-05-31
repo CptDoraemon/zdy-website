@@ -7,21 +7,21 @@ import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
 import DataTableToolbar from "./data-table-toolbar";
 import DataTableHead from "./data-table-head";
 import {Link} from "react-router-dom";
+import DataTableControls from "./data-table-controls";
+import {Pagination} from "@material-ui/lab";
+import {Dispatch} from "redux";
+import {
+    alterTableSortCurrentPage,
+} from "../../redux/actions/table-sort";
+import {State} from "../../redux/state";
+import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-    },
-    control: {
-        margin: theme.spacing(1),
-    },
-    controlLabel: {
-        fontSize: '0.8rem'
     },
     paper: {
         width: '100%',
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
         width: '100%',
+        maxHeight: 500,
     },
     moreInfo: {
         '&:hover': {
@@ -40,15 +41,30 @@ const useStyles = makeStyles((theme) => ({
         '&:visited': {
             textDecoration: 'underline'
         }
+    },
+    pagination: {
+        padding: theme.spacing(2, 1)
     }
 }));
 
 interface EnhancedTableProps {
     data: {[key: string]: any}[],
-    title: string
+    totalPages: number,
+    title: string,
+    refreshData: () => void,
+    currentPage: number,
+    changePage: (page: number) => void
 }
 
-const DataTable: React.FC<EnhancedTableProps> = ({data, title}) => {
+const _DataTable: React.FC<EnhancedTableProps> = (
+    {
+        data,
+        totalPages,
+        title,
+        refreshData,
+        currentPage,
+        changePage
+    }) => {
     const classes = useStyles();
     const [selected, setSelected] = React.useState<number[]>([]);
     const [dense, setDense] = React.useState(false);
@@ -82,8 +98,13 @@ const DataTable: React.FC<EnhancedTableProps> = ({data, title}) => {
         setSelected(newSelected);
     };
 
-    const handleChangeDense = (event: any) => {
+    const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDense(event.target.checked);
+    };
+
+    const handleChangePage = (e: any, value: number) => {
+        changePage(value);
+        refreshData()
     };
 
     const isSelected = (id: number) => selected.indexOf(id) !== -1;
@@ -91,21 +112,13 @@ const DataTable: React.FC<EnhancedTableProps> = ({data, title}) => {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper} elevation={0}>
-                <FormControlLabel
-                    classes={{
-                        root: classes.control,
-                        label: classes.controlLabel
-                    }}
-                    control={<Switch checked={dense} onChange={handleChangeDense} />}
-                    label="Dense padding"
-                />
+                <DataTableControls dense={dense} denseHandler={handleChangeDense} refreshData={refreshData}/>
                 <DataTableToolbar selected={selected} title={title}/>
-                <TableContainer>
+                <TableContainer className={classes.table}>
                     <Table
-                        className={classes.table}
-                        aria-labelledby="tableTitle"
+                        stickyHeader
                         size={dense ? 'small' : 'medium'}
-                        aria-label="enhanced table"
+                        aria-label="data table"
                     >
                         <DataTableHead
                             header={header}
@@ -157,9 +170,28 @@ const DataTable: React.FC<EnhancedTableProps> = ({data, title}) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+
+                <Pagination count={totalPages} page={currentPage} onChange={handleChangePage} variant="outlined" shape="rounded" className={classes.pagination}/>
             </Paper>
         </div>
     );
 };
+
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        changePage: (page: number) => dispatch(alterTableSortCurrentPage(page))
+    }
+}
+
+function mapStateToProps(state: State) {
+    return {
+        currentPage: state.tableSort.currentPage
+    }
+}
+
+const DataTable = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(_DataTable);
 
 export default DataTable

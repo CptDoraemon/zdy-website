@@ -1,10 +1,10 @@
 import {combineReducers} from "redux";
 import filter from "./filter";
-import downloadableData from "./downloadableData"
+import tableSort from "./table-sort";
 
 const rootReducers = combineReducers({
     filter,
-    downloadableData
+    tableSort
 });
 
 export default rootReducers;

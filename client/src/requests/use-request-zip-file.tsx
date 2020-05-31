@@ -31,7 +31,7 @@ const useRequestZipFile = () => {
         } else {
             // download with filter
             const queryParams = filterToQueryParam(cloneDeep(state.getState().filter.active), defaultFilter);
-            doGet(url + queryParams)
+            doGet(queryParams.length === 0 ? url : url + '?' + queryParams)
         }
     };
 

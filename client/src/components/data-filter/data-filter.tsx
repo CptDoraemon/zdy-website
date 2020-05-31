@@ -110,7 +110,7 @@ const _DataFilter: React.FC<DataFilterProps> = (
                 <>
                     <div className={classes.filtersGroup}>
                         <div className={classes.filterWrapper}>
-                            <Checkboxes filterName={'gender'} options={filterState.gender} alter={alter}/>
+                            <Checkboxes filterName={'sex'} options={filterState.sex} alter={alter}/>
                         </div>
                         <div className={classes.filterWrapper}>
                             <Checkboxes filterName={'death'} options={filterState.death} alter={alter}/>

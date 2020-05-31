@@ -4,7 +4,7 @@ export interface Filters {
         yes: boolean,
         no: boolean,
     },
-    gender: {
+    sex: {
         male: boolean,
         female: boolean
     },
@@ -31,7 +31,7 @@ export const defaultFilters: Filters = {
         yes: true,
         no: true,
     },
-    gender: {
+    sex: {
         male: true,
         female: true
     },

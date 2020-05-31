@@ -4,12 +4,12 @@ import {Filters} from "../../redux/types/filter";
 const filterToQueryParam = (filter: Filters, defaultFilter: Filters) => {
     const params = [];
 
-    if (!isEqual(filter.gender, defaultFilter.gender)) {
+    if (!isEqual(filter.sex, defaultFilter.sex)) {
         const array = [];
-        if (filter.gender.male) {
+        if (filter.sex.male) {
             array.push(1)
         }
-        if (filter.gender.female) {
+        if (filter.sex.female) {
             array.push(2)
         }
 
@@ -56,7 +56,7 @@ const filterToQueryParam = (filter: Filters, defaultFilter: Filters) => {
 
     return params.length === 0 ?
         '' :
-        '?' + params.join('&')
+        params.join('&')
 };
 
 export default filterToQueryParam

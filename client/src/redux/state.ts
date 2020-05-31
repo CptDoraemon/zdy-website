@@ -1,15 +1,15 @@
 import {FilterState, defaultFilterState} from "./types/filter";
-import { cloneDeep } from 'lodash'
-import {defaultDownloadableDataState, DownloadableDataState} from "./types/downloadableDataState";
+import { cloneDeep } from 'lodash';
+import { defaultTableSortState, TableSort } from './types/table-sort';
 
 export interface State {
     filter: FilterState
-    downloadableData: DownloadableDataState
+    tableSort: TableSort
 }
 
 const defaultState: State = {
     filter: cloneDeep(defaultFilterState),
-    downloadableData: cloneDeep(defaultDownloadableDataState),
+    tableSort: cloneDeep(defaultTableSortState)
 };
 
 export default defaultState
