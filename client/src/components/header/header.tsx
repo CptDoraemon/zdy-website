@@ -5,9 +5,11 @@ import NavList from "./nav-list";
 import SearchBar from "./search-bar";
 import MenuIcon from '@material-ui/icons/Menu';
 import MobileNavList from "./mobile-nav-list";
+import Slide from "@material-ui/core/Slide";
 
 const useStyles = makeStyles(theme => ({
     root: {
+        zIndex: theme.zIndex.appBar,
         backgroundColor: theme.palette.primary.main,
         width: '100%',
         height: '50px',
@@ -43,12 +45,13 @@ const useStyles = makeStyles(theme => ({
         }
     },
     mobileNav: {
+        zIndex: theme.zIndex.appBar - 1,
         width: '100%',
         height: '50px',
         display: 'none',
         [theme.breakpoints.down('sm')]: {
             display: 'block'
-        }
+        },
     }
 }));
 
@@ -79,9 +82,12 @@ const Header: React.FC = () => {
             </div>
             {
                 mobileNavBarActive &&
-                <div className={classes.mobileNav}>
-                    <MobileNavList />
-                </div>
+                // @ts-ignore
+                <Slide in={true} className={classes.mobileNav}>
+                    <div className={classes.mobileNav}>
+                        <MobileNavList />
+                    </div>
+                </Slide>
             }
         </>
     )

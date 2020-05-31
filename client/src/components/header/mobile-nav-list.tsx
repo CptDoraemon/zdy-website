@@ -26,7 +26,7 @@ const MobileNavList = () => {
     const path = useLocation().pathname;
 
     return (
-        <AppBar position="static" color="primary">
+        <AppBar position="static" color="primary" elevation={0}>
             <Tabs
                 value={path}
                 // onChange={handleChange}
