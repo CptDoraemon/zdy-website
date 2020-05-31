@@ -94,7 +94,7 @@ const _DataTableControls: React.FC<DataTableControlsProps> = (
                 <Select
                     id="data-table-controls-sort-order"
                     value={sortOrder}
-                    onChange={sortRowPerPageChangeHandler}
+                    onChange={sortOrderChangeHandler}
                     label={'Sort Order'}
                 >
                     <MenuItem value={TableSortOrder.ASC}>Ascending</MenuItem>
