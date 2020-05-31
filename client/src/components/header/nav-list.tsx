@@ -45,11 +45,11 @@ const useStyles = makeStyles(theme => ({
             padding: theme.spacing(2),
         },
         '& a:hover': {
-            color: theme.palette.secondary.light
+            color: theme.palette.secondary.main
         },
     },
     activeLink: {
-        color: theme.palette.secondary.main
+        color: theme.palette.secondary.light
     }
 }));
 

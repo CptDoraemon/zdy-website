@@ -171,7 +171,7 @@ const _DataTable: React.FC<EnhancedTableProps> = (
                     </Table>
                 </TableContainer>
 
-                <Pagination count={totalPages} page={currentPage} onChange={handleChangePage} variant="outlined" shape="rounded" className={classes.pagination}/>
+                <Pagination count={totalPages} page={currentPage} onChange={handleChangePage} color={'primary'} variant="outlined" shape="rounded" className={classes.pagination}/>
             </Paper>
         </div>
     );

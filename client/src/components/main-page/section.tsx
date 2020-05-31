@@ -49,7 +49,7 @@ const Section: React.FC<SectionProps> = ({title, link, description}) => {
                 </Typography>
                 <div className={classes.button}>
                     <Button variant="contained" color="secondary" disableElevation to={link} component={Link}>
-                        View Details >
+                        View Details
                     </Button>
                 </div>
             </div>

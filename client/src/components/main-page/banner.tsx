@@ -44,7 +44,7 @@ const Banner: React.FC = () => {
                 </Typography>
                 <div className={classes.button}>
                     <Button variant="contained" color="primary" disableElevation to={'/'} component={Link}>
-                        Learn More >
+                        Learn More
                     </Button>
                 </div>
             </div>
