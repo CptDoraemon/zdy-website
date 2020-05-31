@@ -18,7 +18,9 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        padding: theme.spacing(1),
+        borderBottom: 'solid 1px rgb(224, 224, 224)'
     },
     control: {
         margin: theme.spacing(1),
@@ -29,6 +31,10 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         minWidth: 150,
         margin: theme.spacing(1)
+    },
+    selectInput: {
+        padding: '8px 12px',
+        fontSize: '0.8rem'
     }
 }));
 
@@ -81,12 +87,15 @@ const _DataTableControls: React.FC<DataTableControlsProps> = (
                     value={sortBy}
                     onChange={sortByChangeHandler}
                     label={'Sort By'}
+                    inputProps={{
+                        className: classes.selectInput
+                    }}
                 >
-                    <MenuItem value={TableSortBy.ID}>ID</MenuItem>
-                    <MenuItem value={TableSortBy.DEATH}>Death</MenuItem>
-                    <MenuItem value={TableSortBy.SEX}>Sex</MenuItem>
-                    <MenuItem value={TableSortBy.SEVERITY}>Severity</MenuItem>
-                    <MenuItem value={TableSortBy.AGE}>Age</MenuItem>
+                    <MenuItem dense value={TableSortBy.ID}>ID</MenuItem>
+                    <MenuItem dense value={TableSortBy.DEATH}>Death</MenuItem>
+                    <MenuItem dense value={TableSortBy.SEX}>Sex</MenuItem>
+                    <MenuItem dense value={TableSortBy.SEVERITY}>Severity</MenuItem>
+                    <MenuItem dense value={TableSortBy.AGE}>Age</MenuItem>
                 </Select>
             </FormControl>
             <FormControl variant="outlined" className={classes.formControl}>
@@ -96,9 +105,12 @@ const _DataTableControls: React.FC<DataTableControlsProps> = (
                     value={sortOrder}
                     onChange={sortOrderChangeHandler}
                     label={'Sort Order'}
+                    inputProps={{
+                        className: classes.selectInput
+                    }}
                 >
-                    <MenuItem value={TableSortOrder.ASC}>Ascending</MenuItem>
-                    <MenuItem value={TableSortOrder.DESC}>Descending</MenuItem>
+                    <MenuItem dense value={TableSortOrder.ASC}>Ascending</MenuItem>
+                    <MenuItem dense value={TableSortOrder.DESC}>Descending</MenuItem>
                 </Select>
             </FormControl>
             <FormControl variant="outlined" className={classes.formControl}>
@@ -108,10 +120,13 @@ const _DataTableControls: React.FC<DataTableControlsProps> = (
                     value={rowPerPage}
                     onChange={sortRowPerPageChangeHandler}
                     label={'Row Per Page'}
+                    inputProps={{
+                        className: classes.selectInput
+                    }}
                 >
-                    <MenuItem value={TableSortRowPerPage.TWENTY}>20</MenuItem>
-                    <MenuItem value={TableSortRowPerPage.FIFTY}>50</MenuItem>
-                    <MenuItem value={TableSortRowPerPage.ONE_HUNDRED}>100</MenuItem>
+                    <MenuItem value={TableSortRowPerPage.TWENTY} dense>20</MenuItem>
+                    <MenuItem value={TableSortRowPerPage.FIFTY} dense>50</MenuItem>
+                    <MenuItem value={TableSortRowPerPage.ONE_HUNDRED} dense>100</MenuItem>
                 </Select>
             </FormControl>
             <FormControlLabel
