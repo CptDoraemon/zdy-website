@@ -10,7 +10,12 @@ import {Dispatch} from "redux";
 import {State} from "../../redux/state";
 import {connect} from "react-redux";
 import {TableSortBy, TableSortOrder, TableSortRowPerPage} from "../../redux/types/table-sort";
-import {alterTableSortBy, alterTableSortOrder, alterTableSortRowPerPage} from "../../redux/actions/table-sort";
+import {
+    alterTableSortBy,
+    alterTableSortDense,
+    alterTableSortOrder,
+    alterTableSortRowPerPage
+} from "../../redux/actions/table-sort";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,7 +45,7 @@ const useStyles = makeStyles(theme => ({
 
 interface DataTableControlsProps {
     dense: boolean,
-    denseHandler: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    toggleDense: () => void,
     sortBy: TableSortBy,
     sortOrder: TableSortOrder,
     rowPerPage: TableSortRowPerPage,
@@ -53,7 +58,7 @@ interface DataTableControlsProps {
 const _DataTableControls: React.FC<DataTableControlsProps> = (
     {
         dense,
-        denseHandler,
+        toggleDense,
         sortBy, sortOrder,
         rowPerPage,
         handleSortByChange,
@@ -134,7 +139,7 @@ const _DataTableControls: React.FC<DataTableControlsProps> = (
                     root: classes.control,
                     label: classes.controlLabel
                 }}
-                control={<Switch checked={dense} onChange={denseHandler} />}
+                control={<Switch checked={dense} onChange={toggleDense} />}
                 label="Dense padding"
             />
         </div>
@@ -145,7 +150,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         handleSortByChange: (value: TableSortBy) => dispatch(alterTableSortBy(value)),
         handleSortOrderChange: (value: TableSortOrder) => dispatch(alterTableSortOrder(value)),
-        handleSortRowPerPageChange: (value: TableSortRowPerPage) => dispatch(alterTableSortRowPerPage(value))
+        handleSortRowPerPageChange: (value: TableSortRowPerPage) => dispatch(alterTableSortRowPerPage(value)),
+        toggleDense: () => dispatch(alterTableSortDense())
     }
 }
 
@@ -153,7 +159,8 @@ function mapStateToProps(state: State) {
     return {
         sortBy: state.tableSort.sortBy,
         sortOrder: state.tableSort.sortOrder,
-        rowPerPage: state.tableSort.rowPerPage
+        rowPerPage: state.tableSort.rowPerPage,
+        dense: state.tableSort.dense
     }
 }
 

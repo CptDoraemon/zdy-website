@@ -5,13 +5,15 @@ export enum TableSortActionType {
     'ALTER_TABLE_SORT_ORDER'='ALTER_TABLE_SORT_ORDER',
     'ALTER_TABLE_SORT_ROW_PER_PAGE'='ALTER_TABLE_SORT_ROW_PER_PAGE',
     'ALTER_TABLE_SORT_CURRENT_PAGE'='ALTER_TABLE_SORT_CURRENT_PAGE',
+    'ALTER_TABLE_SORT_DENSE'='ALTER_TABLE_SORT_DENSE',
 }
 
 export type TableSortActions =
     ReturnType<typeof alterTableSortBy> |
     ReturnType<typeof alterTableSortOrder> |
     ReturnType<typeof alterTableSortRowPerPage> |
-    ReturnType<typeof alterTableSortCurrentPage>;
+    ReturnType<typeof alterTableSortCurrentPage> |
+    ReturnType<typeof alterTableSortDense>
 
 export const alterTableSortBy = (value: TableSortBy) => {
     return {
@@ -38,6 +40,12 @@ export const alterTableSortCurrentPage = (value: number) => {
     return {
         type: TableSortActionType.ALTER_TABLE_SORT_CURRENT_PAGE as typeof TableSortActionType.ALTER_TABLE_SORT_CURRENT_PAGE,
         value
+    }
+};
+
+export const alterTableSortDense = () => {
+    return {
+        type: TableSortActionType.ALTER_TABLE_SORT_DENSE as typeof TableSortActionType.ALTER_TABLE_SORT_DENSE,
     }
 };
 

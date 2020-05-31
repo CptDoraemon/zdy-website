@@ -47,27 +47,28 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-interface EnhancedTableProps {
+interface DataTableProps {
     data: {[key: string]: any}[],
     totalPages: number,
     title: string,
     refreshData: () => void,
     currentPage: number,
-    changePage: (page: number) => void
+    changePage: (page: number) => void,
+    dense: boolean
 }
 
-const _DataTable: React.FC<EnhancedTableProps> = (
+const _DataTable: React.FC<DataTableProps> = (
     {
         data,
         totalPages,
         title,
         refreshData,
         currentPage,
-        changePage
+        changePage,
+        dense
     }) => {
     const classes = useStyles();
     const [selected, setSelected] = React.useState<number[]>([]);
-    const [dense, setDense] = React.useState(false);
 
     const header = useMemo(() => {
         return Object.keys(data[0]);
@@ -98,10 +99,6 @@ const _DataTable: React.FC<EnhancedTableProps> = (
         setSelected(newSelected);
     };
 
-    const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDense(event.target.checked);
-    };
-
     const handleChangePage = (e: any, value: number) => {
         changePage(value);
         refreshData()
@@ -112,7 +109,7 @@ const _DataTable: React.FC<EnhancedTableProps> = (
     return (
         <div className={classes.root}>
             <Paper className={classes.paper} elevation={0}>
-                <DataTableControls dense={dense} denseHandler={handleChangeDense} refreshData={refreshData}/>
+                <DataTableControls refreshData={refreshData}/>
                 <DataTableToolbar selected={selected} title={title}/>
                 <TableContainer className={classes.table}>
                     <Table
@@ -185,7 +182,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
 
 function mapStateToProps(state: State) {
     return {
-        currentPage: state.tableSort.currentPage
+        currentPage: state.tableSort.currentPage,
+        dense: state.tableSort.dense
     }
 }
 

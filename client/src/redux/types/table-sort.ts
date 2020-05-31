@@ -21,12 +21,14 @@ export interface TableSort {
     sortBy: TableSortBy,
     sortOrder: TableSortOrder,
     rowPerPage: TableSortRowPerPage,
-    currentPage: number
+    currentPage: number,
+    dense: boolean
 }
 
 export const defaultTableSortState: TableSort = {
     sortBy: TableSortBy.ID,
     sortOrder: TableSortOrder.ASC,
     rowPerPage: TableSortRowPerPage.TWENTY,
-    currentPage: 1
+    currentPage: 1,
+    dense: false
 };

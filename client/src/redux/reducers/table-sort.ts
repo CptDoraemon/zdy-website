@@ -33,6 +33,13 @@ function tableSort(state = defaultState.tableSort, actions: TableSortActions) {
                 return newState;
             })();
 
+        case TableSortActionType.ALTER_TABLE_SORT_DENSE:
+            return (() => {
+                const newState = cloneDeep(state);
+                newState.dense = !state.dense;
+                return newState;
+            })();
+
         default:
             return state
     }
