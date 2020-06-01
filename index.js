@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const compression = require('compression');
 require('dotenv').config();
 
 const useCorsForSelectedRouters = require('./routers/cors');
@@ -14,6 +15,7 @@ const ZIP_DIR = path.join(__dirname, 'download_temp');
 
 const dbConnection = connectToDB();
 
+app.use(compression());
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('/mock-pics', express.static(path.join(__dirname, 'assets/mock_pics')));
 
