@@ -5,18 +5,17 @@ const sortByOptions = [
     'death',
     'severity'
 ];
-
 const sortOrderOptions = [
     'ASC',
     'DESC'
 ];
+const DEFAULT_SORT_COLUMN = 'id';
+const DEFAULT_SORT_ORDER = 'ASC';
 
 /**
  * return a string like
  * ORDER BY column1 ASC|DESC;
  */
-const DEFAULT_SORT_COLUMN = 'id';
-const DEFAULT_SORT_ORDER = 'ASC';
 const getQueryStringOrderPart = (req) => {
     const sortBy = req.query.sortBy;
     const sortOrder = req.query.sortOrder;
