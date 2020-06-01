@@ -7,24 +7,28 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import TextField from "@material-ui/core/TextField";
+import filterStyles from "./filter-styles";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: 150
+        ...filterStyles(theme).root,
     },
-    capitalize: {
-        textTransform: 'capitalize'
+    legend: {
+        ...filterStyles(theme).text,
+        marginBottom: '4px'
     },
     textFieldGroup: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
-        margin: theme.spacing(1, 0)
     },
     textField: {
-        width: 50,
-        margin: theme.spacing(0, 1, 0, 0)
+        width: 60,
+        margin: theme.spacing(1, 1, 1, 0)
+    },
+    textFieldInput: {
+        ...filterStyles(theme).text,
     },
     error: {
         color: theme.palette.error.main,
@@ -63,23 +67,38 @@ const AgeFilter: React.FC<AgeFilterProps> = ({filterName, alter, min, max, valid
         } else if (min < 0 || max < 0) {
             validation.setIsValid(false);
             setErrorMessage('Age cannot be negative')
+        } else if ((!min && min !== 0) || (!max && max !== 0)) {
+            validation.setIsValid(false);
+            setErrorMessage('Age cannot be empty')
         } else {
             validation.setIsValid(true);
             setErrorMessage('')
         }
     }, [min, max]);
 
+    const textFieldProps = {
+        type: 'number',
+        className: classes.textField,
+        onChange: changeHandler,
+        error: !validation.isValid,
+        InputProps: {
+            classes: {
+                input: classes.textFieldInput
+            }
+        }
+    };
+
     return (
         <FormControl component="fieldset" className={classes.root}>
             <FormLabel
                 component="legend"
                 classes={{
-                    root: validation.isValid ? classes.capitalize : `${classes.capitalize} ${classes.error}`
+                    root: validation.isValid ? classes.legend : `${classes.legend} ${classes.error}`
                 }}
             >{filterName}</FormLabel>
             <div className={classes.textFieldGroup}>
-                <TextField label="Min" name="min" type={'number'} className={classes.textField} value={min} onChange={changeHandler}/>
-                <TextField label="Max" name="max" type={'number'} className={classes.textField} value={max} onChange={changeHandler}/>
+                <TextField label="Min" name="min" value={min} {...textFieldProps}/>
+                <TextField label="Max" name="max"value={max} {...textFieldProps}/>
             </div>
 
             {

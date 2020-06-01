@@ -1,18 +1,24 @@
 import React, {Dispatch, SetStateAction, useEffect} from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {FormControl} from "@material-ui/core";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import Typography from "@material-ui/core/Typography";
+import filterStyles from "./filter-styles";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: 150
+        ...filterStyles(theme).root,
     },
-    capitalize: {
-        textTransform: 'capitalize'
+    legend: {
+        ...filterStyles(theme).text,
+        marginBottom: '4px'
+    },
+    checkboxLabel: {
+        ...filterStyles(theme).text,
     },
     error: {
         color: theme.palette.error.main,
@@ -20,6 +26,9 @@ const useStyles = makeStyles(theme => ({
         '&$:focus': {
             color: theme.palette.error.main,
         }
+    },
+    checkbox: {
+        padding: '2px 9px'
     }
 }));
 
@@ -59,7 +68,7 @@ const Checkboxes: React.FC<CheckboxesProps> = ({filterName, options, alter, vali
                 error={!validation.isValid}
                 component="legend"
                 classes={{
-                    root: validation.isValid ? classes.capitalize : `${classes.capitalize} ${classes.error}`
+                    root: validation.isValid ? classes.legend : `${classes.legend} ${classes.error}`
                 }}
             >
                 {filterName}</FormLabel>
@@ -68,9 +77,22 @@ const Checkboxes: React.FC<CheckboxesProps> = ({filterName, options, alter, vali
                     Object.entries(options).map((keyValuePair, i) => (
                         <FormControlLabel
                             key={i}
-                            control={<Checkbox checked={keyValuePair[1]} onChange={changeHandler} name={keyValuePair[0]} />}
-                            label={keyValuePair[0]}
-                            className={classes.capitalize}
+                            control={
+                                <Checkbox
+                                    checked={keyValuePair[1]}
+                                    onChange={changeHandler}
+                                    name={keyValuePair[0]}
+                                    className={classes.checkbox}
+                                />
+                            }
+                            label={
+                                <Typography
+                                    variant={'body2'}
+                                    component={'span'}
+                                    className={validation.isValid ? classes.checkboxLabel : `${classes.checkboxLabel} ${classes.error}`}
+                                >{keyValuePair[0]}
+                                </Typography>
+                            }
                         />
                     ))
                 }

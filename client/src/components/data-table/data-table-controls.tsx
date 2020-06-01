@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(1),
     },
     controlLabel: {
-        fontSize: '0.8rem'
+        fontSize: theme.typography.body2.fontSize
     },
     formControl: {
         minWidth: 150,
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     },
     selectInput: {
         padding: '8px 12px',
-        fontSize: '0.8rem'
+        fontSize: theme.typography.body2.fontSize
     }
 }));
 

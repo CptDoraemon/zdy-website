@@ -57,19 +57,17 @@ const useStyles = makeStyles(theme => ({
         }
     },
     buttons: {
-        margin: theme.spacing(1, 2)
+        marginLeft: theme.spacing(2)
     },
     applyButton: {
         backgroundColor: theme.palette.success.main,
         color: '#fff',
-        margin: theme.spacing(0, 2, 0, 0),
-        [theme.breakpoints.down('sm')]: {
-            margin: theme.spacing(0, 0, 1, 0),
-        }
+        margin: theme.spacing(1),
     },
     resetButton: {
         backgroundColor: theme.palette.warning.main,
         color: '#fff',
+        margin: theme.spacing(1),
     }
 }));
 
