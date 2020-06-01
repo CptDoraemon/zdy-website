@@ -16,7 +16,7 @@ const getQueryStringFromFilter = (req, res) => {
     const ageMin = req.query.ageMin;
     const ageMax = req.query.ageMax;
 
-    let queryString = 'SELECT * FROM test';
+    let queryString = `SELECT * FROM ${process.env.DB_TABLE}`;
     const whereConstraints = [];
 
     const params = [

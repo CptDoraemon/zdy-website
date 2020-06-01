@@ -10,7 +10,6 @@ export default function configureStore() {
     return createStore(
         rootReducers,
         state,
-        // applyMiddleware(thunkMiddleware)
-        applyMiddleware(thunkMiddleware, loggerMiddleware)
+        process.env.REACT_APP_DEBUG === 'true' ? applyMiddleware(thunkMiddleware, loggerMiddleware) : applyMiddleware(thunkMiddleware),
     )
 }
