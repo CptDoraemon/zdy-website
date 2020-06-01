@@ -177,7 +177,7 @@ const _DataFilter: React.FC<DataFilterProps> = (
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         reset: () => dispatch(resetAllFilter()),
-        apply: () => dispatch(applyPendingFilter()),
+        apply: () => dispatch<any>(applyPendingFilter()),
         alter: (filterName: string, optionName: string, value: any) => dispatch(alterPendingFilter(filterName, optionName, value))
     }
 }

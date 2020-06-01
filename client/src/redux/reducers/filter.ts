@@ -2,7 +2,7 @@ import defaultState from "../state";
 import {FilterActions, FilterActionType} from "../actions/filter";
 import cloneDeep from 'lodash/cloneDeep'
 
-function filter(state = defaultState.filter, actions: FilterActions) {
+function filter(state = defaultState.filter, actions: any) {
     switch(actions.type) {
         case FilterActionType.ALTER_PENDING_FILTER:
             return (() => {
