@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 const GENERIC_ERROR_MESSAGE = 'Sever is not available';
 

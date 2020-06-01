@@ -2,7 +2,6 @@ import React, {useEffect, useMemo} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {Button} from "@material-ui/core";
 import useRequestZipFile from "../../requests/use-request-zip-file";
-import Tooltip from "@material-ui/core/Tooltip";
 import useDownloadFile from "../../requests/use-download-file";
 
 const KB = 1024;

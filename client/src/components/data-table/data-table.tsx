@@ -11,14 +11,12 @@ import DataTableToolbar from "./data-table-toolbar";
 import DataTableHead from "./data-table-head";
 import {Link} from "react-router-dom";
 import DataTableControls from "./data-table-controls";
-import {Pagination} from "@material-ui/lab";
+import Pagination from "@material-ui/lab/Pagination";
 import {Dispatch} from "redux";
-import {
-    alterTableSortCurrentPage,
-} from "../../redux/actions/table-sort";
+import {alterTableSortCurrentPage} from "../../redux/actions/table-sort";
 import {State} from "../../redux/state";
 import {connect} from "react-redux";
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep'
 
 const useStyles = makeStyles((theme) => ({
     root: {

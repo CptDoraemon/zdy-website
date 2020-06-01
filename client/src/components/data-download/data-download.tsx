@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import DataFilter from "../data-filter/data-filter";
 import useGetTableData from "../../requests/use-get-table-data";
-import {CircularProgress} from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import DataTable from "../data-table/data-table";
 
 const useStyles = makeStyles(theme => ({

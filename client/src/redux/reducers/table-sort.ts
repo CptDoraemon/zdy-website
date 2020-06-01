@@ -1,5 +1,5 @@
 import defaultState from "../state";
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import {TableSortActions, TableSortActionType} from "../actions/table-sort";
 
 function tableSort(state = defaultState.tableSort, actions: TableSortActions) {
