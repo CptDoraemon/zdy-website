@@ -111,7 +111,7 @@ const DownloadButton: React.FC<CaseDetailProps> = ({list}) => {
         // not request to generate zip file yet
         <Button variant="contained" color="primary" disableElevation onClick={clickToRequestZip} className={classes.root} disabled={zip.loading}>
             {
-                zip.loading ? 'Processiong' :
+                zip.loading ? 'Processing' :
                 list.length > 0 ? 'Download Selected' : 'Download All'
             }
         </Button>
