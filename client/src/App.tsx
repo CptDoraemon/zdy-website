@@ -51,13 +51,23 @@ const InnerApp: React.FC<InnerAppProps> = () => {
                 <Header />
                     <Switch>
                         <Route path="/" exact render={ () => <MainPage /> } />
-                        <div className={classes.widthWrapper}>
-                            <Route path="/explore-data" exact render={ () => <DataExplorer /> } />
-                            <Route path="/file-repository" exact render={ () => <DataDownload /> } />
-                            <Route path="/case-detail/:id" exact render={ (props) => <CaseDetail id={props.match.params.id}/> } />
-                        </div>
+                        <Route component={PagesWithWidthWrapper} />
                     </Switch>
             </Router>
+        </div>
+    )
+};
+
+const PagesWithWidthWrapper: React.FC = () => {
+    const classes = useStyles();
+
+    return (
+        <div className={classes.widthWrapper}>
+            <Switch>
+                <Route path="/explore-data" exact render={ () => <DataExplorer /> } />
+                <Route path="/file-repository" exact render={ () => <DataDownload /> } />
+                <Route path="/case-detail/:id" exact render={ (props) => <CaseDetail id={props.match.params.id}/> } />
+            </Switch>
         </div>
     )
 };
