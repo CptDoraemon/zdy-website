@@ -7,16 +7,17 @@
 /**
  * check query params validation
  * return queryString if all validated
- * return empty string and respond error message if not validated
+ * return empty string if no constraints applied
+ * return null and respond error message if not validated
  */
-const getQueryStringFromFilter = (req, res) => {
+const getQueryStringWherePart = (req, res) => {
     const sex = req.query.sex;
     const death = req.query.death;
     const severity = req.query.severity;
     const ageMin = req.query.ageMin;
     const ageMax = req.query.ageMax;
 
-    let queryString = `SELECT * FROM ${process.env.DB_TABLE}`;
+    let queryString = '';
     const whereConstraints = [];
 
     const params = [
@@ -42,7 +43,7 @@ const getQueryStringFromFilter = (req, res) => {
             const valueArray = queryParamValueToStringArray(params[i].value);
             const isValidate = validateQueryParam(params[i].key, valueArray, params[i].possibleValues, res);
             if (!isValidate) {
-                return ''
+                return null
             }
             pushConstraints(params[i].key, valueArray, whereConstraints);
         }
@@ -56,7 +57,7 @@ const getQueryStringFromFilter = (req, res) => {
                 status: 'error',
                 message: `ageMax has to be greater than ageMin`
             });
-            return ''
+            return null
         }
         whereConstraints.push(`(age>=${min} AND age<=${max})`)
     } else if (ageMin !== undefined && ageMax === undefined) {
@@ -115,4 +116,4 @@ const validateQueryParam = (key, value, possibleValuesArray, res) => {
     }
 };
 
-module.exports = getQueryStringFromFilter;
+module.exports = getQueryStringWherePart;

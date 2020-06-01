@@ -1,5 +1,5 @@
 const url = require('./URLs');
-const getQueryStringFromFilter = require('./helpers/get-query-string-from-filter');
+const getQueryStringWherePart = require('./helpers/get-query-string-where-part');
 const sendGenericErrorResponse = require('./helpers/generic-error-response');
 const queryDB = require('./helpers/query-db');
 const path = require('path');
@@ -22,8 +22,10 @@ const requestZipFileRouter = (app, dbConnection, sourceDir, targetDir) => {
                 if (!areIDValidate) return;
             } else {
                 // searching by filter
-                const queryString = getQueryStringFromFilter(req, res);
-                if (queryString === '') return;
+                const where = getQueryStringWherePart(req, res);
+                if (where === null) return;
+
+                const queryString= `SELECT * FROM ${process.env.DB_TABLE} ${where}`;
                 const result = await queryDB(dbConnection, queryString);
                 IDs = result.map(row => row.id);
             }

@@ -32,7 +32,7 @@ const _applyPendingFilter = () => {
 export const applyPendingFilter = () => {
     // need to reset page after new filter is applied
     return (dispatch: any) => {
-        dispatch(_applyPendingFilter);
+        dispatch(_applyPendingFilter());
         dispatch(alterTableSortCurrentPage(defaultState.tableSort.currentPage))
     }
 };

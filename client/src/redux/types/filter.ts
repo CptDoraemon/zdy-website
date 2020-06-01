@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash';
+
 export interface Filters {
     [key: string]: any,
     death: {
@@ -47,8 +49,8 @@ export const defaultFilters: Filters = {
 };
 
 export const defaultFilterState: FilterState = {
-    active: {...defaultFilters},
-    pending: {...defaultFilters},
+    active: cloneDeep(defaultFilters),
+    pending: cloneDeep(defaultFilters),
     isPendingChanged: false,
     isActiveApplied: false
 };
