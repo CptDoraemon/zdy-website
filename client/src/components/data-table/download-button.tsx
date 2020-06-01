@@ -101,7 +101,7 @@ const DownloadButton: React.FC<CaseDetailProps> = ({list}) => {
             return (
                 <div className={classes.message}>
                     {'Your download should begin shortly. If it\'s not starting, '}
-                    <a href={file.getDownloadURL(zip.data?.filename)} target='_blank' className={classes.link}>click here</a>
+                    <a href={file.getDownloadURL(zip.data?.filename)} target='_blank' className={classes.link} rel={'noreferrer noopener'}>click here</a>
                     {'.'}
                 </div>
             )

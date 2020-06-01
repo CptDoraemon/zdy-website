@@ -19,6 +19,7 @@ const useDownloadFile = () => {
         let link: HTMLAnchorElement | null = document.createElement("a");
         link.href = urlWithQueryParam;
         link.target = '_blank';
+        link.rel = 'noreferrer noopener';
         document.body.appendChild(link);
         link.click();
         link.remove();
