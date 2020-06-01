@@ -18,6 +18,7 @@ import {
 } from "../../redux/actions/table-sort";
 import {State} from "../../redux/state";
 import {connect} from "react-redux";
+import { cloneDeep } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,7 +69,7 @@ const _DataTable: React.FC<DataTableProps> = (
         dense
     }) => {
     const classes = useStyles();
-    const [selected, setSelected] = React.useState<number[]>([]);
+    const [selected, setSelected] = React.useState<{[key: string]: boolean}>({});
 
     const header = useMemo(() => {
         return Object.keys(data[0]);
@@ -76,27 +77,28 @@ const _DataTable: React.FC<DataTableProps> = (
 
     const handleSelectAllClick = (event: any) => {
         if (event.target.checked) {
-            const newSelecteds = data.map((n) => parseInt(n.id));
+            const newSelecteds: {[key: string]: boolean} = {};
+            data.forEach(row => {
+                const key = `${row.id}`;
+                if (key !== '') {
+                    newSelecteds[key] = true
+                }
+            });
             setSelected(newSelecteds);
-            return;
+        } else {
+            setSelected({});
         }
-        setSelected([]);
     };
 
     const handleClick = (id: number) => {
-        let existed = false;
-        const newSelected = selected.filter(_ => {
-            if (_ === id) {
-                existed = true;
-                return false
-            } else return true
-        });
+        const newSelecteds = cloneDeep(selected);
+        const key = id.toString();
 
-        if (!existed) {
-            newSelected.push(id);
+        if (key !== '') {
+            newSelecteds[key] = !newSelecteds[key];
         }
 
-        setSelected(newSelected);
+        setSelected(newSelecteds);
     };
 
     const handleChangePage = (e: any, value: number) => {
@@ -104,13 +106,14 @@ const _DataTable: React.FC<DataTableProps> = (
         refreshData()
     };
 
-    const isSelected = (id: number) => selected.indexOf(id) !== -1;
+    const isSelected = (id: number) => !(selected[id] === undefined || selected[id] === false);
+    const selectedIDs = Object.keys(selected);
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper} elevation={0}>
                 <DataTableControls refreshData={refreshData}/>
-                <DataTableToolbar selected={selected} title={title}/>
+                <DataTableToolbar selected={selectedIDs.slice()} title={title}/>
                 <TableContainer className={classes.table}>
                     <Table
                         stickyHeader
@@ -119,7 +122,7 @@ const _DataTable: React.FC<DataTableProps> = (
                     >
                         <DataTableHead
                             header={header}
-                            numSelected={selected.length}
+                            numSelected={selectedIDs.length}
                             onSelectAllClick={handleSelectAllClick}
                             rowCount={data.length}
                         />
@@ -132,7 +135,7 @@ const _DataTable: React.FC<DataTableProps> = (
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={() => handleClick(id)}
+                                            onClick={()=>handleClick(id)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}

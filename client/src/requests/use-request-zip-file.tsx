@@ -24,7 +24,7 @@ const useRequestZipFile = () => {
         doGet
     } = useGet<ResponseType>();
 
-    const doRequest = (idArray?: number[]) => {
+    const doRequest = (idArray?: string[]) => {
         if (idArray && idArray.length > 0) {
             // download by ID
             doGet(url + `?id=${idArray.join(',')}`)

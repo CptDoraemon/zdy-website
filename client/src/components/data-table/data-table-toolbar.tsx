@@ -27,7 +27,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 }));
 
 interface EnhancedTableToolbarProps {
-    selected: number[],
+    selected: string[],
     title: string
 }
 

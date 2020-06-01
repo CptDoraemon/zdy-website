@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface CaseDetailProps {
-    list: number[]
+    list: string[]
 }
 
 const DownloadButton: React.FC<CaseDetailProps> = ({list}) => {

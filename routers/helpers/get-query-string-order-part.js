@@ -19,7 +19,8 @@ const getQueryStringOrderPart = (req) => {
     const sortBy = req.query.sortBy;
     const sortOrder = req.query.sortOrder;
 
-    let column = 'id';
+    const defaultColumn = 'id';
+    let column = defaultColumn;
     let order = 'ASC';
 
     if (sortBy !== undefined) {
@@ -36,7 +37,12 @@ const getQueryStringOrderPart = (req) => {
         }
     }
 
-    return `ORDER BY ${column} ${order}`
+    // use default column as secondary sort when needed
+    if (column === defaultColumn) {
+        return `ORDER BY ${column} ${order}`
+    } else {
+        return `ORDER BY ${column}, ${defaultColumn} ${order}`
+    }
 };
 
 module.exports = getQueryStringOrderPart;
