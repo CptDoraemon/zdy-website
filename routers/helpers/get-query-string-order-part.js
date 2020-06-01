@@ -15,13 +15,14 @@ const sortOrderOptions = [
  * return a string like
  * ORDER BY column1 ASC|DESC;
  */
+const DEFAULT_SORT_COLUMN = 'id';
+const DEFAULT_SORT_ORDER = 'ASC';
 const getQueryStringOrderPart = (req) => {
     const sortBy = req.query.sortBy;
     const sortOrder = req.query.sortOrder;
 
-    const defaultColumn = 'id';
-    let column = defaultColumn;
-    let order = 'ASC';
+    let column = DEFAULT_SORT_COLUMN;
+    let order = DEFAULT_SORT_ORDER;
 
     if (sortBy !== undefined) {
         const _sortBy = sortBy.toString().toLowerCase();
@@ -37,11 +38,13 @@ const getQueryStringOrderPart = (req) => {
         }
     }
 
-    // use default column as secondary sort when needed
-    if (column === defaultColumn) {
+    if (column === DEFAULT_SORT_COLUMN) {
+        // default column used as the only sort
         return `ORDER BY ${column} ${order}`
     } else {
-        return `ORDER BY ${column}, ${defaultColumn} ${order}`
+        // when primary sort is other than default column
+        // use default column as secondary sort, and by default sort order
+        return `ORDER BY ${column} ${order}, ${DEFAULT_SORT_COLUMN} ${DEFAULT_SORT_ORDER}`
     }
 };
 
