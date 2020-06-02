@@ -47,8 +47,6 @@ const DataDownload: React.FC<DataDownloadProps> = ({}) => {
         getData()
     }, []);
 
-    const noEntryFound = !loading && !error && data !== null && data.tableData.length !== undefined && data.tableData.length === 0;
-
     return (
         <div className={classes.root}>
 
@@ -70,12 +68,14 @@ const DataDownload: React.FC<DataDownloadProps> = ({}) => {
                 </div>
             }
             {
-                noEntryFound &&
+                // loaded but no entry found
+                !loading && !error && data !== null && data.tableData.length !== undefined && data.tableData.length === 0 &&
                 <div className={classes.centering}>
                     No entries found with applied filters
                 </div>
             }
             {
+                // loaded and has data
                 !loading && !error && data !== null && data.tableData.length !== undefined && data.tableData.length > 0 &&
                 <DataTable data={data.tableData} totalPages={data.totalPages} title={'data'} refreshData={getData}/>
             }
