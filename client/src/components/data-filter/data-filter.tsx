@@ -9,7 +9,8 @@ import {
     resetAllFilter
 } from "../../redux/actions/filter";
 import {Button} from "@material-ui/core";
-import FilterListIcon from '@material-ui/icons/FilterList';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Checkboxes from "./checkboxes";
 import AgeFilter from "./age-filter";
 import Paper from "@material-ui/core/Paper";
@@ -137,7 +138,7 @@ const _DataFilter: React.FC<DataFilterProps> = (
                 color='primary'
                 disableElevation
                 className={`${classes.title} ${isActiveFilterSameAsDefault ? classes.titleInactive : classes.titleActive}`}
-                endIcon={<FilterListIcon/>}
+                endIcon={dropdown ? <KeyboardArrowDownIcon/> : <ChevronRightIcon/>}
                 aria-expanded={dropdown}
                 onClick={toggleDropdown}
             >
