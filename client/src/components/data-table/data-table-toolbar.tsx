@@ -7,8 +7,12 @@ import DownloadButton from "./download-button";
 
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(1),
+        padding: theme.spacing(0, 2),
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
     },
     highlight:
         theme.palette.type === 'light'
@@ -20,18 +24,33 @@ const useToolbarStyles = makeStyles((theme) => ({
                 color: theme.palette.text.primary,
                 backgroundColor: theme.palette.secondary.dark,
             },
-    title: {
-        flex: '1 1 100%',
-        textTransform: 'capitalize'
+    titleWrapper: {
+        [theme.breakpoints.down('sm')]: {
+            margin: theme.spacing(1, 0)
+        }
     },
+    title: {
+        textTransform: 'capitalize',
+        fontWeight: 700
+    },
+    text: {
+        fontWeight: 700
+    },
+    buttonWrapper: {
+        marginLeft: 'auto',
+        [theme.breakpoints.down('sm')]: {
+            margin: theme.spacing(1, 0, 1, 'auto')
+        }
+    }
 }));
 
 interface EnhancedTableToolbarProps {
     selected: string[],
-    title: string
+    title: string,
+    totalRows: number
 }
 
-const DataTableToolbar: React.FC<EnhancedTableToolbarProps> = ({selected, title}) => {
+const DataTableToolbar: React.FC<EnhancedTableToolbarProps> = ({selected, title, totalRows}) => {
     const classes = useToolbarStyles();
 
     const numSelected = useMemo(() => selected.length, [selected]);
@@ -42,17 +61,25 @@ const DataTableToolbar: React.FC<EnhancedTableToolbarProps> = ({selected, title}
                 [classes.highlight]: numSelected > 0,
             })}
         >
-            {numSelected > 0 ? (
-                <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-                    {numSelected} selected
-                </Typography>
-            ) : (
-                <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-                    { title }
-                </Typography>
-            )}
-
-            <DownloadButton list={selected}/>
+            <div className={classes.titleWrapper}>
+                {numSelected > 0 ? (
+                    <Typography className={classes.text} color="inherit" variant="subtitle1" component="div">
+                        {numSelected} selected
+                    </Typography>
+                ) : (
+                    <div>
+                        <Typography className={classes.title} variant="h6" component="span">
+                            { title }
+                        </Typography>
+                        <Typography className={classes.text} variant="body2" component="span" color={'secondary'}>
+                            { ` (${totalRows} records found)` }
+                        </Typography>
+                    </div>
+                )}
+            </div>
+            <div className={classes.buttonWrapper}>
+                <DownloadButton list={selected}/>
+            </div>
         </Toolbar>
     );
 };

@@ -25,7 +25,7 @@ const getFileSize = (size: number) => {
 
 const useStyles = makeStyles(theme => ({
     root: {
-        minWidth: 200
+        minWidth: 200,
     },
     fileReady: {
         minWidth: 200,
@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface CaseDetailProps {
-    list: string[]
+    list: string[],
 }
 
 const DownloadButton: React.FC<CaseDetailProps> = ({list}) => {
@@ -108,10 +108,10 @@ const DownloadButton: React.FC<CaseDetailProps> = ({list}) => {
         }
     } else return (
         // not request to generate zip file yet
-        <Button variant="contained" color="primary" disableElevation onClick={clickToRequestZip} className={classes.root} disabled={zip.loading}>
+        <Button variant="contained" color="primary" disableElevation onClick={clickToRequestZip} classes={{root: classes.root}} disabled={zip.loading}>
             {
                 zip.loading ? 'Processing' :
-                list.length > 0 ? 'Download Selected' : 'Download All'
+                list.length > 0 ? 'Download Selected' : `Download All`
             }
         </Button>
     )

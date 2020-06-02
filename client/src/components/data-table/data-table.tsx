@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 interface DataTableProps {
     data: {[key: string]: any}[],
     totalPages: number,
+    totalRows: number,
     title: string,
     refreshData: () => void,
     currentPage: number,
@@ -60,6 +61,7 @@ const _DataTable: React.FC<DataTableProps> = (
     {
         data,
         totalPages,
+        totalRows,
         title,
         refreshData,
         currentPage,
@@ -111,7 +113,7 @@ const _DataTable: React.FC<DataTableProps> = (
         <div className={classes.root}>
             <Paper className={classes.paper} elevation={0}>
                 <DataTableControls refreshData={refreshData}/>
-                <DataTableToolbar selected={selectedIDs.slice()} title={title}/>
+                <DataTableToolbar selected={selectedIDs.slice()} title={title} totalRows={totalRows}/>
                 <TableContainer className={classes.table}>
                     <Table
                         stickyHeader

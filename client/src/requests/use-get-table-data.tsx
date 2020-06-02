@@ -9,7 +9,8 @@ import sortToQueryParam from "./helpers/sort-to-query-param";
 
 interface DataType {
     tableData: {[key: string]: any}[],
-    totalPages: number
+    totalPages: number,
+    totalRows: number
 }
 
 const useGetTableData = () => {

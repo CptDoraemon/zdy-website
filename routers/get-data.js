@@ -32,6 +32,7 @@ const getDataRouter = (app, dbConnection) => {
                 status: 'OK',
                 data: {
                     tableData: tableData.slice(),
+                    totalRows,
                     totalPages: Math.ceil(totalRows / rowPerPage)
                 }
             });

@@ -77,7 +77,7 @@ const DataDownload: React.FC<DataDownloadProps> = ({}) => {
             {
                 // loaded and has data
                 !loading && !error && data !== null && data.tableData.length !== undefined && data.tableData.length > 0 &&
-                <DataTable data={data.tableData} totalPages={data.totalPages} title={'data'} refreshData={getData}/>
+                <DataTable data={data.tableData} totalPages={data.totalPages} title={'data'} refreshData={getData} totalRows={data.totalRows}/>
             }
         </div>
     )
