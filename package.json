@@ -12,6 +12,8 @@
   "author": "Xiaoxi",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "@types/hapi__joi": "^17.1.1",
     "archiver": "^4.0.1",
     "body-parser": "^1.18.3",
     "compression": "^1.7.4",

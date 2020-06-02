@@ -66,7 +66,7 @@ const PagesWithWidthWrapper: React.FC = () => {
             <Switch>
                 <Route path="/explore-data" exact render={ () => <DataExplorer /> } />
                 <Route path="/file-repository" exact render={ () => <DataDownload /> } />
-                <Route path="/case-detail/:id" exact render={ (props) => <CaseDetail id={props.match.params.id}/> } />
+                <Route path="/case-detail/:id" exact render={ (props) => <CaseDetail id={props.match.params.id} goBack={props.history.goBack}/> } />
             </Switch>
         </div>
     )

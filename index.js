@@ -9,15 +9,17 @@ const connectToDB = require('./connect-to-db');
 const getDataRouter = require('./routers/get-data');
 const requestZipFileRouter = require('./routers/download').requestZipFileRouter;
 const getFileRouter = require('./routers/download').getFileRouter;
+const getCaseDetailRouter = require('./routers/get-case-detail');
 
-const MOCK_PICS_DIR = path.join(__dirname, 'assets/mock_pics');
+const MOCK_PICS_DIR_RELATIVE = '/mock_pics';
+const MOCK_PICS_DIR = path.join(__dirname, 'assets', MOCK_PICS_DIR_RELATIVE);
 const ZIP_DIR = path.join(__dirname, 'download_temp');
 
 const dbConnection = connectToDB();
 
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'client/build')));
-app.use('/mock-pics', express.static(path.join(__dirname, 'assets/mock_pics')));
+app.use(MOCK_PICS_DIR_RELATIVE, express.static(path.join(__dirname, 'assets/mock_pics')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
@@ -30,6 +32,7 @@ useCorsForSelectedRouters(app);
 getDataRouter(app, dbConnection);
 requestZipFileRouter(app, dbConnection, MOCK_PICS_DIR, ZIP_DIR);
 getFileRouter(app, ZIP_DIR);
+getCaseDetailRouter(app, dbConnection, MOCK_PICS_DIR_RELATIVE);
 // API routers end
 
 app.get('*', (req, res) => {

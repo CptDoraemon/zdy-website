@@ -15,7 +15,8 @@ const useCorsForSelectedRouters = (app) => {
     ];
 
     routers.forEach(_ => {
-        app.use(_, cors(corsOptions));
+        // app.use(_, cors(corsOptions));
+        app.use(cors(corsOptions));
     });
 };
 
