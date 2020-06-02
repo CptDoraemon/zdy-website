@@ -7,7 +7,7 @@ const fs = require('fs');
 const archiver = require('archiver');
 
 /**
- * request generate Zip file by ID or by filters
+ * request to generate Zip file by ID or by filters
  * if id exists, any filter will be ignored
  * zip all files if no query param exists
  * /api/request-zip?sex=1,2&death=0,1&severity=1,2,3&ageMin=10&ageMax=20&id=1,2,3

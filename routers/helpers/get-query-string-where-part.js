@@ -91,9 +91,9 @@ const queryParamValueToStringArray = (value) => {
 };
 
 /**
- * check whether the query parameter is validate,
+ * check whether the query parameter is valid,
  * return boolean,
- * and will response error message if not validate
+ * and will response error message if not valid
  * @param value {string[]}
  */
 const validateQueryParam = (key, value, possibleValuesArray, res) => {

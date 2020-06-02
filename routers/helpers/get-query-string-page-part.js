@@ -6,7 +6,7 @@ const rowPerPageOptions = [
 
 /**
  * return a string like
- * ORDER BY column1 ASC|DESC;
+ * LIMIT 20 OFFSET 20
  */
 const getQueryStringPagePart = (req, rowPerPage) => {
     const page = req.query.page;
