@@ -29,10 +29,19 @@ const getCaseDetail = (app, dbConnection, fileDir) => {
             const queryString = `SELECT * FROM ${process.env.DB_TABLE} WHERE id=${id}`;
             const tableData = await queryDB(dbConnection, queryString);
             const row = tableData[0];
+            if (!row) {
+                // no entry find with given id
+                res.json({
+                    status: 'error',
+                    message: 'No record found with given ID'
+                });
+                return
+            }
 
             // get image
             const filePath = path.join(fileDir, `${id}.jpg`);
 
+            // normal response
             res.json({
                 status: 'OK',
                 data: {

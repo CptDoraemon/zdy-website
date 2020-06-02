@@ -2,27 +2,26 @@ import React, {useEffect, useState} from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {createStyles, Theme, Typography} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import {Skeleton} from "@material-ui/lab";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import BrokenImageIcon from '@material-ui/icons/BrokenImage';
 
+const DEV_IMAGE_URL = 'https://s1.ax1x.com/2020/06/01/t35GOe.jpg';
 const getSexString = (sex: string) => {
-    return sex === '1' ? 'Male' :
-            sex === '2' ? 'Female' :
+    const _sex = `${sex}`;
+    return _sex === '1' ? 'Male' :
+            _sex === '2' ? 'Female' :
             'Unknown';
 };
 
-const textStyles = createStyles((theme: Theme) => ({
-    primary: {
-
-    },
-    secondary: {
-
-    }
-}));
-
 const useStyles = makeStyles(theme => ({
     section: {
-        margin: theme.spacing(2, 0)
+        margin: theme.spacing(2, 0),
+        '&:first-of-type': {
+            margin: theme.spacing(0, 0, 2, 0),
+        },
+        '&:last-of-type': {
+            margin: theme.spacing(2, 0, 0, 0),
+        }
     },
 }));
 
@@ -36,7 +35,7 @@ interface CaseDetailContentProps {
 const CaseDetailContent: React.FC<CaseDetailContentProps> = ({id, sex, age, image}) => {
     const classes = useStyles();
     const imageUrl = process.env.REACT_APP_DEBUG === 'true' ?
-        'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3984473917,238095211&fm=26&gp=0.jpg' :
+        DEV_IMAGE_URL :
         image;
 
     return (
@@ -47,8 +46,8 @@ const CaseDetailContent: React.FC<CaseDetailContentProps> = ({id, sex, age, imag
 
             <div className={classes.section}>
                 <CaseDetailContentTitle title={'Basic Information'}/>
-                <p>Sex: {getSexString(sex)}</p>
-                <p>Age: {age}</p>
+                <CaseDetailContentRow keyName={'sex'} value={getSexString(sex)}/>
+                <CaseDetailContentRow keyName={'age'} value={age}/>
             </div>
 
             <div className={classes.section}>
@@ -62,6 +61,36 @@ const CaseDetailContent: React.FC<CaseDetailContentProps> = ({id, sex, age, imag
         </div>
     )
 };
+
+
+const useContentRowStyles = makeStyles(theme => ({
+    root: {
+        margin: theme.spacing(0, 0, 0, 2)
+    },
+    keyName: {
+        textTransform: 'capitalize'
+    }
+}));
+
+interface CaseDetailContentRowProps {
+    keyName: string,
+    value: string
+}
+
+const CaseDetailContentRow: React.FC<CaseDetailContentRowProps> = ({keyName, value}) => {
+    const classes = useContentRowStyles();
+    return (
+        <div className={classes.root}>
+            <span className={classes.keyName}>
+                {`${keyName}: `}
+            </span>
+            <span>
+                {value}
+            </span>
+        </div>
+    )
+};
+
 
 const useContentStyles = makeStyles(theme => ({
     root: {
@@ -83,7 +112,7 @@ const CaseDetailContentTitle: React.FC<CaseDetailContentTitleProps> = ({title, m
     return (
         <Typography variant={'h6'} component={'h2'} color={"primary"} className={classes.root}>
             <Box fontWeight={700}>
-                {`${title}: `}
+                {moreOnTitle ? `${title}: ` : title}
                 {
                     moreOnTitle &&
                     <Box fontWeight={700} component={'span'} className={classes.moreOnTitle}>
@@ -94,6 +123,7 @@ const CaseDetailContentTitle: React.FC<CaseDetailContentTitleProps> = ({title, m
         </Typography>
     )
 };
+
 
 const useImageStyles = makeStyles(theme => ({
     image: {
@@ -126,6 +156,7 @@ const CaseDetailContentImage: React.FC<CaseDetailContentImageProps> = ({url}) =>
     const classes = useImageStyles();
 
     const [loaded, setLoaded] = useState(false);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         let image: HTMLImageElement | null = new Image();
@@ -133,12 +164,21 @@ const CaseDetailContentImage: React.FC<CaseDetailContentImageProps> = ({url}) =>
         image.onload = () => {
             setLoaded(true)
         };
+        image.onerror = () => {
+            setError(true)
+        };
         return () => {
             image = null;
         }
     }, []);
 
-    if (loaded) {
+    if (error) {
+        return (
+            <div className={classes.imageLoading} title={'No image related to this case found'}>
+                <BrokenImageIcon color={"secondary"}/>
+            </div>
+        )
+    } else if (loaded) {
         return (
             <img className={classes.image} src={url} alt='case detail' />
         )
