@@ -112,8 +112,8 @@ const _DataTable: React.FC<DataTableProps> = (
     return (
         <div className={classes.root}>
             <Paper className={classes.paper} elevation={0}>
-                <DataTableControls refreshData={refreshData}/>
                 <DataTableToolbar selected={selectedIDs.slice()} title={title} totalRows={totalRows}/>
+                <DataTableControls refreshData={refreshData}/>
                 <TableContainer className={classes.table}>
                     <Table
                         stickyHeader

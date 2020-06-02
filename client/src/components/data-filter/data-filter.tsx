@@ -14,6 +14,7 @@ import Checkboxes from "./checkboxes";
 import AgeFilter from "./age-filter";
 import Paper from "@material-ui/core/Paper";
 import Fade from "@material-ui/core/Fade";
+import {primaryButtonStyles, successButtonStyles, warningButtonStyles} from "../../styles";
 
 const useFilterValidationState = () => {
     const [isValid, _setIsValid] = useState(true);
@@ -35,6 +36,12 @@ const useStyles = makeStyles(theme => ({
     title: {
         margin: theme.spacing(1, 0),
         textTransform: 'capitalize'
+    },
+    titleActive: {
+        ...successButtonStyles(theme).root
+    },
+    titleInactive: {
+        ...primaryButtonStyles(theme).root
     },
     dropdown: {
         padding: theme.spacing(1, 0),
@@ -60,13 +67,11 @@ const useStyles = makeStyles(theme => ({
         marginLeft: theme.spacing(2)
     },
     applyButton: {
-        backgroundColor: theme.palette.success.main,
-        color: '#fff',
+        ...successButtonStyles(theme).root,
         margin: theme.spacing(1),
     },
     resetButton: {
-        backgroundColor: theme.palette.warning.main,
-        color: '#fff',
+        ...warningButtonStyles(theme).root,
         margin: theme.spacing(1),
     }
 }));
@@ -77,7 +82,7 @@ interface DataFilterProps {
     alter: (filterName: string, optionName: string, value: any) => void,
     filterState: State['filter']['pending'],
     isPendingChanged: State['filter']['isPendingChanged'],
-    isActiveApplied: State['filter']['isActiveApplied'],
+    isActiveFilterSameAsDefault: State['filter']['isActiveFilterSameAsDefault'],
     callBackOnFilterApplied?: () => void,
     disabled?: boolean
 }
@@ -89,7 +94,7 @@ const _DataFilter: React.FC<DataFilterProps> = (
         reset,
         filterState,
         isPendingChanged,
-        isActiveApplied,
+        isActiveFilterSameAsDefault,
         callBackOnFilterApplied,
         disabled
     }) => {
@@ -108,7 +113,6 @@ const _DataFilter: React.FC<DataFilterProps> = (
         ageValidation.isValid
     ].indexOf(false) === -1;
     const canApplyNewFilter = areFiltersValid && !disabled && isPendingChanged;
-
 
     const toggleDropdown = () => {
         setDropdown(state => !state)
@@ -130,14 +134,16 @@ const _DataFilter: React.FC<DataFilterProps> = (
         <div className={classes.root}>
             <Button
                 variant="contained"
-                color="primary"
+                color='primary'
                 disableElevation
-                className={classes.title}
+                className={`${classes.title} ${isActiveFilterSameAsDefault ? classes.titleInactive : classes.titleActive}`}
                 endIcon={<FilterListIcon/>}
                 aria-expanded={dropdown}
                 onClick={toggleDropdown}
             >
-                Filters
+                {
+                    isActiveFilterSameAsDefault ? 'Filters' : 'Filters Applied'
+                }
             </Button>
             {
                 dropdown &&
@@ -186,7 +192,7 @@ function mapStateToProps(state: State) {
     return {
         filterState: {...state.filter.pending},
         isPendingChanged: state.filter.isPendingChanged,
-        isActiveApplied: state.filter.isActiveApplied,
+        isActiveFilterSameAsDefault: state.filter.isActiveFilterSameAsDefault
     }
 }
 

@@ -1,6 +1,7 @@
 import defaultState from "../state";
 import {FilterActions, FilterActionType} from "../actions/filter";
 import cloneDeep from 'lodash/cloneDeep'
+import isEqual from 'lodash/isEqual'
 
 function filter(state = defaultState.filter, actions: FilterActions) {
     switch(actions.type) {
@@ -16,8 +17,8 @@ function filter(state = defaultState.filter, actions: FilterActions) {
             return (() => {
                 const newState = cloneDeep(state);
                 newState.active = cloneDeep(newState.pending);
-                newState.isActiveApplied = true;
                 newState.isPendingChanged = false;
+                newState.isActiveFilterSameAsDefault = isEqual(newState.active, defaultState.filter.active);
                 return newState;
             })();
 

@@ -25,7 +25,7 @@ export interface FilterState {
     active: Filters,
     pending: Filters,
     isPendingChanged: boolean,
-    isActiveApplied: boolean
+    isActiveFilterSameAsDefault: boolean
 }
 
 export const defaultFilters: Filters = {
@@ -52,5 +52,5 @@ export const defaultFilterState: FilterState = {
     active: cloneDeep(defaultFilters),
     pending: cloneDeep(defaultFilters),
     isPendingChanged: false,
-    isActiveApplied: false
+    isActiveFilterSameAsDefault: true
 };

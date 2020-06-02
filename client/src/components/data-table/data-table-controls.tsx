@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         justifyContent: 'flex-start',
         padding: theme.spacing(1),
-        borderBottom: 'solid 1px rgb(224, 224, 224)'
+        borderTop: 'solid 1px rgb(224, 224, 224)'
     },
     control: {
         margin: theme.spacing(1),
