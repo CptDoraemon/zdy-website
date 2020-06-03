@@ -93,11 +93,11 @@ const _DataTable: React.FC<DataTableProps> = (
     const handleClick = (id: number) => {
         const newSelecteds = cloneDeep(selected);
         const key = id.toString();
-
-        if (key !== '') {
-            newSelecteds[key] = !newSelecteds[key];
+        if (newSelecteds[key] !== undefined) {
+            delete newSelecteds[key]
+        } else {
+            newSelecteds[key] = true
         }
-
         setSelected(newSelecteds);
     };
 
@@ -106,8 +106,9 @@ const _DataTable: React.FC<DataTableProps> = (
         refreshData()
     };
 
-    const isSelected = (id: number) => !(selected[id] === undefined || selected[id] === false);
+    const isSelected = (id: number) => !(selected[id] === undefined);
     const selectedIDs = Object.keys(selected);
+
 
     return (
         <div className={classes.root}>
