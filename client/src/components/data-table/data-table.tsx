@@ -80,9 +80,7 @@ const _DataTable: React.FC<DataTableProps> = (
             const newSelecteds: {[key: string]: boolean} = {};
             data.forEach(row => {
                 const key = `${row.id}`;
-                if (key !== '') {
-                    newSelecteds[key] = true
-                }
+                newSelecteds[key] = true
             });
             setSelected(newSelecteds);
         } else {
@@ -93,11 +91,7 @@ const _DataTable: React.FC<DataTableProps> = (
     const handleClick = (id: number) => {
         const newSelecteds = cloneDeep(selected);
         const key = id.toString();
-        if (newSelecteds[key] !== undefined) {
-            delete newSelecteds[key]
-        } else {
-            newSelecteds[key] = true
-        }
+        newSelecteds[key] = !newSelecteds[key];
         setSelected(newSelecteds);
     };
 
@@ -106,8 +100,13 @@ const _DataTable: React.FC<DataTableProps> = (
         refreshData()
     };
 
-    const isSelected = (id: number) => !(selected[id] === undefined);
-    const selectedIDs = Object.keys(selected);
+    const isSelected = (id: number) => !(selected[id] === undefined || selected[id] === false);
+    const selectedIDs: string[] = [];
+    for (let key in selected) {
+        if (selected.hasOwnProperty(key) && selected[key] !== undefined && selected[key] !== false) {
+            selectedIDs.push(key)
+        }
+    }
 
 
     return (
