@@ -62,13 +62,14 @@ functions:
     handler: handler.queryDatabase
     events:
       - http:
-          path: query-database
+          path: /query-database
           method: get
+          cors: true
   test:
     handler: handler.test
     events:
       - http:
-          path: test
+          path: /test
           method: get
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

@@ -31,7 +31,7 @@ async function queryDatabaseHandler(event, context, dbConnection) {
         const result = await queryDB(dbConnection, countRowQueryString);
         const totalRows = parseInt(Object.values(result[0])[0]);
 
-        const resBody = {
+        return {
             status: 'OK',
             data: {
                 tableData: tableData.slice(),
@@ -39,36 +39,14 @@ async function queryDatabaseHandler(event, context, dbConnection) {
                 totalPages: Math.ceil(totalRows / rowPerPage)
             }
         };
-        return {
-            statusCode: 200,
-            body: JSON.stringify(
-                resBody,
-                null,
-                2
-            ),
-        };
     } catch (e) {
         if (e instanceof ValidationError) {
             return {
-                statusCode: 200,
-                body: JSON.stringify(
-                    {
-                        status: 'error',
-                        message: e.message
-                    },
-                    null,
-                    2
-                ),
+                status: 'error',
+                message: e.message
             };
         } else {
-            return {
-                statusCode: 200,
-                body: JSON.stringify(
-                    {...genericErrorResponseBody},
-                    null,
-                    2
-                ),
-            };
+            return {...genericErrorResponseBody};
         }
     }
 }

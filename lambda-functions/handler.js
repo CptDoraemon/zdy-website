@@ -14,7 +14,16 @@ const dbConnection = mysql.createPool({
 });
 
 module.exports.queryDatabase = async (event, context) => {
-    return queryDatabaseHandler(event, context, dbConnection)
+    const responseBody = await queryDatabaseHandler(event, context, dbConnection);
+
+    return {
+        statusCode: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true
+        },
+        body: JSON.stringify({...responseBody}, null, 2),
+    };
 };
 
 module.exports.test = async (event, context) => {
