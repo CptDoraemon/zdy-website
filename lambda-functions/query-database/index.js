@@ -1,0 +1,76 @@
+const ValidationError = require('./helpers/validation-error');
+const genericErrorResponseBody = require('./helpers/generic-error-response');
+const getQueryStringWherePart = require('./helpers/get-query-string-where-part');
+const getQueryStringOrderPart = require('./helpers/get-query-string-order-part');
+const {
+    getQueryStringPagePart,
+    getRowPerPage
+} = require('./helpers/get-query-string-page-part');
+const queryDB = require('./helpers/query-db');
+
+async function queryDatabaseHandler(event, context, dbConnection) {
+    try {
+        // This will allow us to freeze open connections to a database
+        // context.callbackWaitsForEmptyEventLoop = false;
+
+        const req = {};
+        req.query = {...event.queryStringParameters};
+
+        const queryStringBase = `SELECT * FROM ${process.env.DB_TABLE}`;
+        const where = getQueryStringWherePart(req);
+        const order = getQueryStringOrderPart(req);
+        const rowPerPage = getRowPerPage(req);
+        const page = getQueryStringPagePart(req, rowPerPage);
+        const queryString = `${queryStringBase} ${where} ${order} ${page}`;
+
+        // tableData
+        const tableData = await queryDB(dbConnection, queryString);
+
+        // totalPages
+        const countRowQueryString = `SELECT COUNT(*) FROM ${process.env.DB_TABLE} ${where}`;
+        const result = await queryDB(dbConnection, countRowQueryString);
+        const totalRows = parseInt(Object.values(result[0])[0]);
+
+        const resBody = {
+            status: 'OK',
+            data: {
+                tableData: tableData.slice(),
+                totalRows,
+                totalPages: Math.ceil(totalRows / rowPerPage)
+            }
+        };
+        return {
+            statusCode: 200,
+            body: JSON.stringify(
+                resBody,
+                null,
+                2
+            ),
+        };
+    } catch (e) {
+        if (e instanceof ValidationError) {
+            return {
+                statusCode: 200,
+                body: JSON.stringify(
+                    {
+                        status: 'error',
+                        message: e.message
+                    },
+                    null,
+                    2
+                ),
+            };
+        } else {
+            return {
+                statusCode: 200,
+                body: JSON.stringify(
+                    {...genericErrorResponseBody},
+                    null,
+                    2
+                ),
+            };
+        }
+    }
+}
+
+module.exports = queryDatabaseHandler;
