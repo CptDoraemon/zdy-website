@@ -58,7 +58,7 @@ const DownloadFilesWithAppliedFilters: React.FC<DownloadFilesWithAppliedFiltersP
                         </DialogContent> :
                         <DialogContent dividers className={classes.dialogContent}>
                             <p>
-                                Your are requesting to download all the files with the applied filters, the file size can be large and we need time to prepare it.
+                                You are requesting to download all the files with the applied filters, the file size can be large and we need time to prepare it.
                             </p>
                             <p>
                                 You can track the progress and download your file once it's ready in the download status tab.
