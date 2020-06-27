@@ -1,6 +1,6 @@
 const url = require('./URLs');
 const getQueryStringWherePart = require('./helpers/get-query-string-where-part');
-const sendGenericErrorResponse = require('./helpers/generic-error-response');
+const errorHandler = require('../common/errors/error-handler');
 const queryDB = require('./helpers/query-db');
 const path = require('path');
 const fs = require('fs');
@@ -39,7 +39,7 @@ const requestZipFileRouter = (app, dbConnection, sourceDir, targetDir) => {
                 }
             })
         } catch (e) {
-            sendGenericErrorResponse(e, res)
+            errorHandler(e, res);
         }
     })
 };

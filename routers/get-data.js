@@ -1,9 +1,9 @@
 const url = require('./URLs').getData;
 const getQueryStringWherePart = require('./helpers/get-query-string-where-part');
 const queryDB = require('./helpers/query-db');
-const sendGenericErrorResponse = require('./helpers/generic-error-response');
 const getQueryStringOrderPart = require('./helpers/get-query-string-order-part');
 const {getQueryStringPagePart, getRowPerPage} = require('./helpers/get-query-string-page-part');
+const errorHandler = require('../common/errors/error-handler');
 
 /**
  * /api/get-data?sex=1,2&death=0,1&severity=1,2,3&ageMin=10&ageMax=20
@@ -12,9 +12,7 @@ const getDataRouter = (app, dbConnection) => {
     app.get(url, async (req, res) => {
         try {
             const queryStringBase = `SELECT * FROM ${process.env.DB_TABLE}`;
-            const where = getQueryStringWherePart(req, res);
-            if (where === null) return;
-
+            const where = getQueryStringWherePart(req);
             const order = getQueryStringOrderPart(req);
             const rowPerPage = getRowPerPage(req);
             const page = getQueryStringPagePart(req, rowPerPage);
@@ -37,7 +35,7 @@ const getDataRouter = (app, dbConnection) => {
                 }
             });
         } catch (e) {
-            sendGenericErrorResponse(e, res)
+            errorHandler(e, res)
         }
     })
 };

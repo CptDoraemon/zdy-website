@@ -1,3 +1,5 @@
+const ValidationError = require('../../common/errors/validation-error');
+
 /**
  *  convert query params such as below
  *  ?sex=1,2&death=0,1&severity=1,2,3&ageMin=10&ageMax=20
@@ -8,9 +10,9 @@
  * check query params validation
  * return queryString if all validated
  * return empty string if no constraints applied
- * return null and respond error message if not validated
+ * throw ValidationError if any param is invalid
  */
-const getQueryStringWherePart = (req, res) => {
+const getQueryStringWherePart = (req) => {
     const sex = req.query.sex;
     const death = req.query.death;
     const severity = req.query.severity;
@@ -41,10 +43,7 @@ const getQueryStringWherePart = (req, res) => {
     for (let i=0; i<params.length; i++) {
         if (params[i].value !== undefined) {
             const valueArray = queryParamValueToStringArray(params[i].value);
-            const isValidate = validateQueryParam(params[i].key, valueArray, params[i].possibleValues, res);
-            if (!isValidate) {
-                return null
-            }
+            validateQueryParam(params[i].key, valueArray, params[i].possibleValues);
             pushConstraints(params[i].key, valueArray, whereConstraints);
         }
     }
@@ -53,11 +52,7 @@ const getQueryStringWherePart = (req, res) => {
         const min = parseInt(ageMin);
         const max = parseInt(ageMax);
         if (min >= max) {
-            res.json({
-                status: 'error',
-                message: `ageMax has to be greater than ageMin`
-            });
-            return null
+            throw new ValidationError(`ageMax has to be greater than ageMin`);
         }
         whereConstraints.push(`(age>=${min} AND age<=${max})`)
     } else if (ageMin !== undefined && ageMax === undefined) {
@@ -96,7 +91,7 @@ const queryParamValueToStringArray = (value) => {
  * and will response error message if not valid
  * @param value {string[]}
  */
-const validateQueryParam = (key, value, possibleValuesArray, res) => {
+const validateQueryParam = (key, value, possibleValuesArray) => {
     let isValidate = true;
     for (let i=0; i<value.length; i++) {
         if (possibleValuesArray.indexOf(value[i]) === -1) {
@@ -105,14 +100,8 @@ const validateQueryParam = (key, value, possibleValuesArray, res) => {
         }
     }
 
-    if (isValidate) {
-        return true
-    } else {
-        res.json({
-            status: 'error',
-            message: `The possible values for ${key} are ${possibleValuesArray}`
-        });
-        return false
+    if (!isValidate) {
+        throw new ValidationError(`The possible values for ${key} are ${possibleValuesArray}`);
     }
 };
 

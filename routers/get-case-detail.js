@@ -1,5 +1,5 @@
 const url = require('./URLs').getCaseDetail;
-const sendGenericErrorResponse = require('./helpers/generic-error-response');
+const errorHandler = require('../common/errors/error-handler');
 const queryDB = require('./helpers/query-db');
 const Joi = require('@hapi/joi');
 const path = require('path');
@@ -52,7 +52,7 @@ const getCaseDetail = (app, dbConnection, fileDir) => {
                 }
             });
         } catch (e) {
-            sendGenericErrorResponse(e, res)
+            errorHandler(e, res);
         }
     })
 };

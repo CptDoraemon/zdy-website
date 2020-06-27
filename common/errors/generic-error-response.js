@@ -1,4 +1,4 @@
-const sendGenericErrorResponse = (e, res) => {
+const respondGenericError = (e, res) => {
     console.log(e);
     res.json({
         status: 'error',
@@ -6,4 +6,4 @@ const sendGenericErrorResponse = (e, res) => {
     });
 };
 
-module.exports = sendGenericErrorResponse;
+module.exports = respondGenericError;
