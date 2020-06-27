@@ -1,4 +1,4 @@
-const ValidationError = require('./validation-error');
+const ValidationError = require('../../common/validation-error');
 
 /**
  * check query params validation

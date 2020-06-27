@@ -1,0 +1,20 @@
+{
+  "name": "lambda-functions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "dependencies": {
+    "archiver": "^4.0.1",
+    "aws-sdk": "^2.706.0",
+    "dotenv": "^8.2.0",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "serverless-offline": "^6.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "author": "Xiaoxi",
+  "license": "ISC"
+}

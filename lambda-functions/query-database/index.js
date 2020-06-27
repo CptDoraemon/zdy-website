@@ -1,20 +1,17 @@
-const ValidationError = require('./helpers/validation-error');
-const genericErrorResponseBody = require('./helpers/generic-error-response');
+const ValidationError = require('../common/validation-error');
+const genericErrorResponseBody = require('../common/generic-error-response');
 const getQueryStringWherePart = require('./helpers/get-query-string-where-part');
 const getQueryStringOrderPart = require('./helpers/get-query-string-order-part');
 const {
     getQueryStringPagePart,
     getRowPerPage
 } = require('./helpers/get-query-string-page-part');
-const queryDB = require('./helpers/query-db');
+const queryDB = require('../common/query-db');
 
-async function queryDatabaseHandler(event, context, dbConnection) {
+async function queryDatabaseHandler(req, dbConnection) {
     try {
         // This will allow us to freeze open connections to a database
         // context.callbackWaitsForEmptyEventLoop = false;
-
-        const req = {};
-        req.query = {...event.queryStringParameters};
 
         const queryStringBase = `SELECT * FROM ${process.env.DB_TABLE}`;
         const where = getQueryStringWherePart(req);

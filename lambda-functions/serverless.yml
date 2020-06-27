@@ -65,6 +65,13 @@ functions:
           path: /query-database
           method: get
           cors: true
+  downloadFileById:
+    handler: handler.downloadFilesById
+    events:
+      - http:
+          path: /download-file-by-id
+          method: get
+          cors: true
   test:
     handler: handler.test
     events:
