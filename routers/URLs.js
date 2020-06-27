@@ -1,8 +1,7 @@
 const URLs = {
     getData: '/api/get-data',
-    requestZip: '/api/request-zip',
-    download: '/api/download',
-    getCaseDetail: '/api/get-case-detail'
+    getCaseDetail: '/api/get-case-detail',
+    getFilesById: '/api/get-files-by-id'
 };
 
 module.exports = URLs;

@@ -3,7 +3,7 @@ import React, {useMemo} from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import clsx from "clsx";
 import Typography from "@material-ui/core/Typography";
-import DownloadButton from "./download-button";
+import DownloadButton from "../download-files/download-button";
 
 const useToolbarStyles = makeStyles((theme) => ({
     root: {

@@ -14,7 +14,7 @@ interface ResponseType {
 const useRequestZipFile = () => {
     const state = useStore<State>();
     const defaultFilter = cloneDeep(defaultFilters);
-    const url = URLs.requestZipFile;
+    const url = '';
     const {
         loading,
         error,

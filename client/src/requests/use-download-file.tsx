@@ -2,7 +2,7 @@ import URLs from "./urls";
 import {useState} from "react";
 
 const useDownloadFile = () => {
-    const url = URLs.downloadFile;
+    const url = '';
     const [downloaded, setDownloaded] = useState(false);
 
     const getDownloadURL = (filename: string) => {

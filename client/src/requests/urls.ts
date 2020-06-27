@@ -4,9 +4,8 @@ const baseURL = process.env.REACT_APP_DEBUG === 'true' ?
 
 const URLs = {
     getDataURL: baseURL + '/get-data',
-    requestZipFile: baseURL + '/request-zip',
-    downloadFile: baseURL + '/download',
-    getCaseDetail: baseURL + '/get-case-detail'
+    getCaseDetail: baseURL + '/get-case-detail',
+    downloadFilesById: baseURL + '/get-files-by-id'
 };
 
 export default URLs
