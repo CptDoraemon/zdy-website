@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button} from "@material-ui/core";
 import useButtonStyles from "./download-button-styles"
 import useDownloadFilesById from "../../requests/use-download-files-by-id";
@@ -72,7 +72,7 @@ const DownloadFilesById: React.FC<DownloadFilesByIdProps> = ({list}) => {
     } else {
         return (
             <>
-                <Button variant="contained" color="primary" disableElevation onClick={sendRequest} classes={{root: classes.root}}>
+                <Button variant="contained" color="primary" disableElevation onClick={sendRequest} classes={{root: classes.root}} disabled={loading}>
                     {
                         loading ? 'Processing' : 'Download Selected'
                     }

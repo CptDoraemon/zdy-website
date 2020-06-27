@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: theme.spacing(5)
+        padding: theme.spacing(5),
+        textAlign: 'center'
     },
     link: {
         display: 'block',
