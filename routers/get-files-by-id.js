@@ -4,25 +4,24 @@ const errorHandler = require('../common/errors/error-handler');
 const path = require('path');
 const fs = require('fs');
 const archiver = require('archiver');
+const getFileSizeString = require('../common/get-file-size-string');
 
 /**
- * request to generate Zip file by ID or by filters
- * if id exists, any filter will be ignored
- * zip all files if no query param exists
- * /api/request-zip?sex=1,2&death=0,1&severity=1,2,3&ageMin=10&ageMax=20&id=1,2,3
+ * request to generate Zip file by ID
+ * /api/get-files-by-id?id=1,2,3
  */
-const getFilesById = (app, dbConnection, sourceDir, targetDir, downloadPath) => {
+const getFilesById = (app, dbConnection, sourceDir, targetDir) => {
     app.get(url.getFilesById, async (req, res) => {
         try {
             let IDs = getID(req);
             validateID(IDs);
 
-            const {filepath, size} = await getZipFiles(IDs, sourceDir, targetDir, downloadPath);
+            const {filename, size} = await getZipFiles(IDs, sourceDir, targetDir);
             res.json({
                 status: 'OK',
                 data: {
-                    filepath,
-                    size
+                    filename,
+                    size: getFileSizeString(size)
                 }
             })
         } catch (e) {
@@ -73,7 +72,7 @@ const validateID = (array) => {
  * @param sourceDir {string} the path of input file directory
  * @param targetDir {string} the path of zip file directory
  */
-const getZipFiles = (IDArray, sourceDir, targetDir, downloadPath) => {
+const getZipFiles = (IDArray, sourceDir, targetDir) => {
     return new Promise((resolve, reject) => {
         const zip = archiver('zip', {
             zlib: { level: 9 } // Sets the compression level.
@@ -81,11 +80,10 @@ const getZipFiles = (IDArray, sourceDir, targetDir, downloadPath) => {
         const fileName = `data-download-${Date.now().toString(36)}.zip`;
         const outputDir = path.join(targetDir, fileName);
         const output = fs.createWriteStream(outputDir);
-        const fileDownloadPath = path.join(downloadPath, fileName);
 
         output.on('close', () => {
             resolve({
-                filepath: fileDownloadPath,
+                filename: fileName,
                 size: zip.pointer()
             });
         });

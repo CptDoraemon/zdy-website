@@ -3,8 +3,8 @@ import useGet from "./use-get";
 
 
 interface ResponseType {
-    filepath: string,
-    size: number
+    filename: string,
+    size: string
 }
 
 const useDownloadFilesById = () => {
@@ -19,9 +19,7 @@ const useDownloadFilesById = () => {
     } = useGet<ResponseType>();
 
     const doRequest = (idArray: string[]) => {
-        if (idArray && idArray.length > 0) {
-            doGet(url + `?id=${idArray.join(',')}`)
-        }
+        doGet(url + `?id=${idArray.join(',')}`)
     };
 
     return {
