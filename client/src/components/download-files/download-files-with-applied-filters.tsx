@@ -39,7 +39,7 @@ const DownloadFilesWithAppliedFilters: React.FC<DownloadFilesWithAppliedFiltersP
             <Button variant="contained" color="primary" disableElevation onClick={toggleDialog} classes={{root: classes.root}}>
                 Download All
             </Button>
-            <Dialog onClose={closeDialog} onExited={resetData} aria-labelledby="download-files-by-id-dialog-title" open={dialog} classes={{paper: classes.dialogRoot}}>
+            <Dialog onClose={closeDialog} onExited={resetData} aria-labelledby="download-files-by-id-dialog-title" open={dialog}>
                 <DialogTitle id="download-files-by-id-dialog-title">
                     Notice
                     <IconButton aria-label="close" className={classes.closeButton} onClick={closeDialog}>

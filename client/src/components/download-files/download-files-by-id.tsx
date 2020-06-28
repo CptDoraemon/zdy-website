@@ -53,14 +53,14 @@ const DownloadFilesById: React.FC<DownloadFilesByIdProps> = ({list}) => {
                         loading ? 'Processing' : 'Download Selected'
                     }
                 </Button>
-                <Dialog onClose={closeDialog} onExited={resetData} aria-labelledby="download-files-by-id-dialog-title" open={dialog} classes={{paper: classes.dialogRoot}}>
+                <Dialog onClose={closeDialog} onExited={resetData} aria-labelledby="download-files-by-id-dialog-title" open={dialog}>
                     <DialogTitle id="download-files-by-id-dialog-title">
                         File Ready
                         <IconButton aria-label="close" className={classes.closeButton} onClick={closeDialog}>
                             <CloseIcon />
                         </IconButton>
                     </DialogTitle>
-                    <DialogContent dividers className={classes.dialogContent}>
+                    <DialogContent dividers classes={{dividers: classes.dialogContent}}>
                         <div>
                             Your file is ready
                         </div>

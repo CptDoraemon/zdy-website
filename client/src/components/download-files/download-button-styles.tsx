@@ -4,16 +4,16 @@ const useStyles = makeStyles(theme => ({
     root: {
         minWidth: 200,
     },
-    dialogRoot: {
-
-    },
     dialogContent: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: theme.spacing(5),
-        textAlign: 'center'
+        padding: theme.spacing(5, 10),
+        textAlign: 'center',
+        [theme.breakpoints.down('sm')]: {
+            padding: theme.spacing(2, 4),
+        }
     },
     link: {
         display: 'block',
