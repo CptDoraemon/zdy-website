@@ -48,7 +48,7 @@ const DownloadFilesWithAppliedFilters: React.FC<DownloadFilesWithAppliedFiltersP
                 </DialogTitle>
                 {
                     requestConfirmed ?
-                        <DialogContent dividers classes={{dividers: classes.dialogContentExtraPadding}}>
+                        <DialogContent classes={{dividers: classes.dialogContentExtraPadding}} dividers>
                             <p>
                                 We are preparing your file.
                             </p>
@@ -56,7 +56,7 @@ const DownloadFilesWithAppliedFilters: React.FC<DownloadFilesWithAppliedFiltersP
                                 You can track the progress and download your file once it's ready in the download status tab.
                             </p>
                         </DialogContent> :
-                        <DialogContent dividers classes={{dividers: classes.dialogContentExtraPadding}}>
+                        <DialogContent classes={{dividers: classes.dialogContentExtraPadding}} dividers>
                             <p>
                                 You are requesting to download all the files with the applied filters, the file size can be large and we need time to prepare it.
                             </p>

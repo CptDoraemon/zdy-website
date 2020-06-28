@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Button} from "@material-ui/core";
 import useButtonStyles from "./download-button-styles"
+import {Button} from "@material-ui/core";
 import useDownloadFilesById from "../../requests/use-download-files-by-id";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -60,7 +60,7 @@ const DownloadFilesById: React.FC<DownloadFilesByIdProps> = ({list}) => {
                             <CloseIcon />
                         </IconButton>
                     </DialogTitle>
-                    <DialogContent dividers classes={{dividers: classes.dialogContentExtraPadding}}>
+                    <DialogContent className={classes.dialogContentExtraPadding} dividers>
                         <div>
                             Your file is ready
                         </div>
