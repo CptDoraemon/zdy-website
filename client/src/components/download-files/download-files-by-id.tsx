@@ -60,7 +60,7 @@ const DownloadFilesById: React.FC<DownloadFilesByIdProps> = ({list}) => {
                             <CloseIcon />
                         </IconButton>
                     </DialogTitle>
-                    <DialogContent dividers classes={{dividers: classes.dialogContent}}>
+                    <DialogContent dividers classes={{dividers: classes.dialogContentExtraPadding}}>
                         <div>
                             Your file is ready
                         </div>

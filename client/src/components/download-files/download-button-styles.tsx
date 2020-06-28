@@ -4,7 +4,7 @@ const useStyles = makeStyles(theme => ({
     root: {
         minWidth: 200,
     },
-    dialogContent: {
+    dialogContentExtraPadding: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
