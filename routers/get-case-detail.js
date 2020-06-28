@@ -2,7 +2,6 @@ const url = require('./URLs').getCaseDetail;
 const errorHandler = require('../common/errors/error-handler');
 const queryDB = require('./helpers/query-db');
 const Joi = require('@hapi/joi');
-const path = require('path');
 
 const idSchema = Joi.object({
     id: Joi.number().integer().required()
@@ -11,7 +10,7 @@ const idSchema = Joi.object({
 /**
  * /api/get-case-detail?id=1
  */
-const getCaseDetail = (app, dbConnection, fileDir) => {
+const getCaseDetail = (app, dbConnection, S3Details) => {
     app.get(url, async (req, res) => {
         try {
             // validate id query param
@@ -30,7 +29,7 @@ const getCaseDetail = (app, dbConnection, fileDir) => {
             const tableData = await queryDB(dbConnection, queryString);
             const row = tableData[0];
             if (!row) {
-                // no entry find with given id
+                // no entry found with given id
                 res.json({
                     status: 'error',
                     message: 'No record found with given ID'
@@ -39,7 +38,7 @@ const getCaseDetail = (app, dbConnection, fileDir) => {
             }
 
             // get image
-            const filePath = path.join(fileDir, `${id}.jpg`);
+            const imageUrl = `https://${S3Details.bucket}.s3.amazonaws.com/${S3Details.original}/${id}.jpg`;
 
             // normal response
             res.json({
@@ -48,7 +47,7 @@ const getCaseDetail = (app, dbConnection, fileDir) => {
                     id: row.id,
                     sex: row.sex,
                     age: row.age,
-                    image: filePath
+                    image: imageUrl
                 }
             });
         } catch (e) {

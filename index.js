@@ -14,18 +14,16 @@ const getCaseDetailRouter = require('./routers/get-case-detail');
 const downloadFileRouter = require('./routers/download');
 const getFileQueueStatusRouter = require('./routers/get-file-queue-status');
 
-const MOCK_PICS_DIR_RELATIVE = '/mock_pics';
-const MOCK_PICS_DIR = path.join(__dirname, 'assets', MOCK_PICS_DIR_RELATIVE);
-const ZIP_DIR = path.join(__dirname, 'download_temp');
-
 app.use(compression());
 // frontend static files
 app.use(express.static(path.join(__dirname, 'client/build')));
 // mock pics static files
-app.use(MOCK_PICS_DIR_RELATIVE, express.static(path.join(__dirname, 'assets/mock_pics')));
+// app.use(MOCK_PICS_DIR_RELATIVE, express.static(path.join(__dirname, 'assets/mock_pics')));
 
 // Connect to DB
 const dbConnection = connectToDB();
+// Setting up AWS
+const S3Details = require('./aws-setup');
 // File Queue
 const FILE_QUEUE = new LargeFileCompressionQueue();
 
@@ -38,10 +36,10 @@ useCorsForSelectedRouters(app);
 
 // API routers
 getDataRouter(app, dbConnection);
-getCaseDetailRouter(app, dbConnection, MOCK_PICS_DIR_RELATIVE);
-getFilesByIdRouter(app, dbConnection, MOCK_PICS_DIR, ZIP_DIR);
+getCaseDetailRouter(app, dbConnection, S3Details);
+getFilesByIdRouter(app, S3Details);
 getFilesWithFilterRouter(app, dbConnection, FILE_QUEUE);
-downloadFileRouter(app, ZIP_DIR);
+downloadFileRouter(app, S3Details);
 getFileQueueStatusRouter(app, FILE_QUEUE);
 // API routers end
 

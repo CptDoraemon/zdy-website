@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {createStyles, Theme, Typography} from "@material-ui/core";
+import {Typography} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import BrokenImageIcon from '@material-ui/icons/BrokenImage';
 
-const DEV_IMAGE_URL = 'https://s1.ax1x.com/2020/06/01/t35GOe.jpg';
 const getSexString = (sex: string) => {
     const _sex = `${sex}`;
     return _sex === '1' ? 'Male' :
@@ -34,9 +33,6 @@ interface CaseDetailContentProps {
 
 const CaseDetailContent: React.FC<CaseDetailContentProps> = ({id, sex, age, image}) => {
     const classes = useStyles();
-    const imageUrl = process.env.REACT_APP_DEBUG === 'true' ?
-        DEV_IMAGE_URL :
-        image;
 
     return (
         <div>
@@ -56,7 +52,7 @@ const CaseDetailContent: React.FC<CaseDetailContentProps> = ({id, sex, age, imag
 
             <div className={classes.section}>
                 <CaseDetailContentTitle title={'Images'}/>
-                <CaseDetailContentImage url={imageUrl} />
+                <CaseDetailContentImage url={image} />
             </div>
         </div>
     )
