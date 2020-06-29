@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import {Link as MuiLink, Paper} from "@material-ui/core";
+import {Paper} from "@material-ui/core";
 import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,22 +8,39 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Box from "@material-ui/core/Box";
-
-type DownloadStatusTableData = {
-    [key: string]: string,
-    key: string,
-    status: string,
-    requestedAt: string,
-    size: string,
-    url: string,
-}[]
+import {DownloadStatusTableData, SortOption, DownloadStatusTableDataObjectKey} from "./use-download-status-table-sort";
 
 interface DownloadStatusProps {
-    data: DownloadStatusTableData
+    data: DownloadStatusTableData[],
+    sortOption: SortOption,
+    changeSortOption: (key: DownloadStatusTableDataObjectKey) => void
 }
 
-const headers = ['filters applied', 'status', 'requested at', 'file size', 'download'];
+const headers: {
+    key: DownloadStatusTableDataObjectKey,
+    title: string
+}[] = [
+    {
+        key: DownloadStatusTableDataObjectKey.key,
+        title: 'filters applied'
+    },
+    {
+        key: DownloadStatusTableDataObjectKey.status,
+        title: 'status'
+    },
+    {
+        key: DownloadStatusTableDataObjectKey.requestedAt,
+        title: 'requested at'
+    },
+    {
+        key: DownloadStatusTableDataObjectKey.size,
+        title: 'file size'
+    },
+    {
+        key: DownloadStatusTableDataObjectKey.url,
+        title: 'download'
+    },
+];
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -42,35 +59,36 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const DownloadStatusTable: React.FC<DownloadStatusProps> = ({data}) => {
+const DownloadStatusTable: React.FC<DownloadStatusProps> = ({data, sortOption, changeSortOption}) => {
     const classes = useStyles();
 
     return (
         <Paper elevation={0}>
             <TableContainer>
                 <Table
-                    aria-labelledby="tableTitle"
+                    aria-label="Download status table"
                     size={'medium'}
                 >
-                    <DownloadStatusTableHead />
+                    <DownloadStatusTableHead sortOption={sortOption} changeSortOption={changeSortOption}/>
                     <TableBody>
                         {
                             data.map((obj, i) => {
                                 return <TableRow
                                     hover
-                                    role="checkbox"
                                     tabIndex={-1}
+                                    key={obj.url}
                                 >
                                     {
                                         Object.keys(obj).map((key, i) => {
                                             if (key === 'url') {
-                                                return <TableCell>
+                                                return <TableCell key={i}>
                                                     <a className={classes.link} href={obj.url} target={'_blank'} rel={'noopener noreferrer'}>
                                                         download
                                                     </a>
                                                 </TableCell>
                                             } else {
-                                                return <TableCell>{obj[key]}</TableCell>
+                                                // @ts-ignore
+                                                return <TableCell key={i}>{obj[key]}</TableCell>
                                             }
                                         })
                                     }
@@ -90,18 +108,26 @@ const useTableHeadStyles = makeStyles(theme => ({
     },
 }));
 
-const DownloadStatusTableHead: React.FC = () => {
+interface DownloadStatusTableHeadProps {
+    sortOption: SortOption,
+    changeSortOption: (key: DownloadStatusTableDataObjectKey) => void
+}
+
+const DownloadStatusTableHead: React.FC<DownloadStatusTableHeadProps> = ({sortOption, changeSortOption}) => {
     const classes = useTableHeadStyles();
 
     return (
         <TableHead>
             <TableRow>
-                {headers.map((name) => (
-                    <TableCell key={name}>
+                {headers.map((obj) => (
+                    <TableCell key={obj.key}>
                         <TableSortLabel
                             className={classes.capitalize}
+                            active={sortOption.key === obj.key}
+                            direction={sortOption.order}
+                            onClick={() => changeSortOption(obj.key)}
                         >
-                                {name}
+                            {obj.title}
                         </TableSortLabel>
                     </TableCell>
                 ))}

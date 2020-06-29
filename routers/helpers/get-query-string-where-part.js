@@ -19,7 +19,6 @@ const getQueryStringWherePart = (req) => {
     const ageMin = req.query.ageMin;
     const ageMax = req.query.ageMax;
 
-    let queryString = '';
     const whereConstraints = [];
 
     const params = [
@@ -64,9 +63,9 @@ const getQueryStringWherePart = (req) => {
     }
 
     if (whereConstraints.length > 0) {
-        return `${queryString} WHERE ${whereConstraints.join(' AND ')}`
+        return `WHERE ${whereConstraints.join(' AND ')}`
     } else {
-        return queryString
+        return ''
     }
 
 };

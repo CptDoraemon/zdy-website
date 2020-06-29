@@ -3,6 +3,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import useGetFileQueueStatus from "../../requests/use-file-queue-status";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DownloadStatusTable from "./download-status-table";
+import useDownloadStatusTableSort from "./use-download-status-table-sort";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -37,6 +38,12 @@ const DownloadStatus: React.FC = () => {
         getData()
     }, []);
 
+    const {
+        sortedData,
+        sortOption,
+        changeSortOption
+    } = useDownloadStatusTableSort(data);
+
     return (
         <div className={classes.root}>
             <div className={classes.title}>
@@ -55,14 +62,14 @@ const DownloadStatus: React.FC = () => {
                 </div>
             }
             {
-                data !== null && data.length === 0 &&
+                sortedData !== null && sortedData.length === 0 &&
                 <div className={classes.loading}>
                     No task found
                 </div>
             }
             {
-                data !== null && data.length > 0 &&
-                <DownloadStatusTable data={data}/>
+                sortedData !== null && sortedData.length > 0 &&
+                <DownloadStatusTable data={sortedData} sortOption={sortOption} changeSortOption={changeSortOption}/>
             }
         </div>
     )
