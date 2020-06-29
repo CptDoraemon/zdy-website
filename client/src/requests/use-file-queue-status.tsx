@@ -49,7 +49,7 @@ const useGetFileQueueStatus= () => {
                 status: obj.status,
                 requestedAt: getTimeString(obj.requestedAt),
                 size: obj.size,
-                url: URLs.downloadFile(obj.filename),
+                url: obj.filename === '' ? '' : URLs.downloadFile(obj.filename),
             }
         }));
     }, [data]);

@@ -81,11 +81,15 @@ const DownloadStatusTable: React.FC<DownloadStatusProps> = ({data, sortOption, c
                                     {
                                         Object.keys(obj).map((key, i) => {
                                             if (key === 'url') {
-                                                return <TableCell key={i}>
-                                                    <a className={classes.link} href={obj.url} target={'_blank'} rel={'noopener noreferrer'}>
-                                                        download
-                                                    </a>
-                                                </TableCell>
+                                                return obj.url !== '' ?
+                                                    <TableCell key={i}>
+                                                        <a className={classes.link} href={obj.url} target={'_blank'} rel={'noopener noreferrer'}>
+                                                            download
+                                                        </a>
+                                                    </TableCell> :
+                                                    <TableCell key={i}>
+                                                        {'-'}
+                                                    </TableCell>
                                             } else {
                                                 // @ts-ignore
                                                 return <TableCell key={i}>{obj[key]}</TableCell>
