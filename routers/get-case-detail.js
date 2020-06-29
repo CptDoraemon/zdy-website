@@ -1,6 +1,6 @@
 const url = require('./URLs').getCaseDetail;
 const errorHandler = require('../common/errors/error-handler');
-const queryDB = require('./helpers/query-db');
+const queryDB = require('../common/query-db');
 const Joi = require('@hapi/joi');
 
 const idSchema = Joi.object({

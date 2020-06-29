@@ -4,6 +4,8 @@ import DataFilter from "../data-filter/data-filter";
 import useGetTableData from "../../requests/use-get-table-data";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DataTable from "../data-table/data-table";
+import {Link} from "react-router-dom";
+import { Link as MuiLink } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -49,6 +51,10 @@ const DataDownload: React.FC<DataDownloadProps> = ({}) => {
 
     return (
         <div className={classes.root}>
+
+            <div>
+                <MuiLink color='secondary' underline='always'><Link to={'/download-status'}>Download Status</Link></MuiLink>
+            </div>
 
             <DataFilter
                 callBackOnFilterApplied={getData}

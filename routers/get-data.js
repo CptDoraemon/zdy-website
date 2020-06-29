@@ -1,6 +1,6 @@
 const url = require('./URLs').getData;
 const getQueryStringWherePart = require('./helpers/get-query-string-where-part');
-const queryDB = require('./helpers/query-db');
+const queryDB = require('../common/query-db');
 const getQueryStringOrderPart = require('./helpers/get-query-string-order-part');
 const {getQueryStringPagePart, getRowPerPage} = require('./helpers/get-query-string-page-part');
 const errorHandler = require('../common/errors/error-handler');

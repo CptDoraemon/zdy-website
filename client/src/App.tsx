@@ -16,6 +16,7 @@ import Header from "./components/header/header";
 import DataExplorer from "./components/data-explorer/data-explorer";
 import DataDownload from "./components/data-download/data-download";
 import CaseDetail from "./components/case-detail/case-detail";
+import DownloadStatus from "./components/download-status/download-status";
 
 const store = configureStore();
 
@@ -66,6 +67,7 @@ const PagesWithWidthWrapper: React.FC = () => {
             <Switch>
                 <Route path="/explore-data" exact render={ () => <DataExplorer /> } />
                 <Route path="/file-repository" exact render={ () => <DataDownload /> } />
+                <Route path="/download-status" exact render={ () => <DownloadStatus /> } />
                 <Route path="/case-detail/:id" exact render={ (props) => <CaseDetail id={props.match.params.id} goBack={props.history.goBack}/> } />
             </Switch>
         </div>

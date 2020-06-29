@@ -16,9 +16,6 @@ const useStyles = makeStyles(theme => ({
         }
     },
     link: {
-        display: 'block',
-        margin: theme.spacing(2, 0),
-        color: theme.palette.primary.main,
         '&:hover': {
             color: theme.palette.secondary.main
         },

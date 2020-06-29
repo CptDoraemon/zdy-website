@@ -25,7 +25,7 @@ const dbConnection = connectToDB();
 // Setting up AWS
 const S3Details = require('./aws-setup');
 // File Queue
-const FILE_QUEUE = new LargeFileCompressionQueue();
+const FILE_QUEUE = new LargeFileCompressionQueue(dbConnection, S3Details);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname+'/client/build/index.html'));

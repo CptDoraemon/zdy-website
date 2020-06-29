@@ -8,6 +8,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import useDownloadFilesWithFilter from "../../requests/use-download-files-with-filter";
+import {Link} from "react-router-dom";
 
 interface DownloadFilesWithAppliedFiltersProps {
 
@@ -53,7 +54,7 @@ const DownloadFilesWithAppliedFilters: React.FC<DownloadFilesWithAppliedFiltersP
                                 We are preparing your file.
                             </p>
                             <p>
-                                You can track the progress and download your file once it's ready in the download status tab.
+                                You can track the progress and download your file once it's ready in the <Link to={'/download-status'} className={classes.link}>download status page</Link>.
                             </p>
                         </DialogContent> :
                         <DialogContent classes={{dividers: classes.dialogContentExtraPadding}} dividers>
@@ -61,7 +62,7 @@ const DownloadFilesWithAppliedFilters: React.FC<DownloadFilesWithAppliedFiltersP
                                 You are requesting to download all the files with the applied filters, the file size can be large and we need time to prepare it.
                             </p>
                             <p>
-                                You can track the progress and download your file once it's ready in the download status tab.
+                                You can track the progress and download your file once it's ready in the <Link to={'/download-status'} className={classes.link}>download status page</Link>.
                             </p>
                             <p>
                                 Please click the button below to confirm the request.
