@@ -9,10 +9,10 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: theme.spacing(5, 10),
+        padding: `${theme.spacing(6, 10)} !important`, // Mui bug, dev/prod inconsistent
         textAlign: 'center',
         [theme.breakpoints.down('sm')]: {
-            padding: theme.spacing(2, 4),
+            padding: `${theme.spacing(3, 4)} !important`, // Mui bug, dev/prod inconsistent
         }
     },
     link: {
